@@ -65,12 +65,12 @@ public class Enrollment implements IBaseModel {
     }
 
     @Override
-    public void inputPersion(Scanner sc) {
+    public void inputData(Scanner sc) {
 
     }
 
     @Override
-    public void displayPersion() {
+    public void displayData() {
 
     }
 }

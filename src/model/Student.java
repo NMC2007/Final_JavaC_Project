@@ -96,12 +96,12 @@ public class Student implements IBaseModel {
 
     //    override
     @Override
-    public void inputPersion(Scanner sc) {
+    public void inputData(Scanner sc) {
 
     }
 
     @Override
-    public void displayPersion() {
+    public void displayData() {
 
     }
 }

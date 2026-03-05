@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class ConnectionDB {
     // các thành phần
     private static final String DRIVER = "org.postgresql.Driver";
-    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String URL = "jdbc:postgresql://localhost:5432/final_javac_prj_db";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "Manhcuong281207@";
 

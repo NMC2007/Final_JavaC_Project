@@ -4,6 +4,7 @@ import dao.impl.ICourseCRUD;
 import model.Student;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class StudentDAOImpl implements ICourseCRUD<Student> {
 
@@ -13,12 +14,12 @@ public class StudentDAOImpl implements ICourseCRUD<Student> {
     }
 
     @Override
-    public void update(int id, Student student) {
+    public void update(int id, Scanner sc) {
 
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id, Scanner sc) {
 
     }
 

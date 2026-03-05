@@ -1,6 +1,7 @@
 package model;
 
 import model.IBaseModel.IBaseModel;
+import validation.InputValidator;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -64,12 +65,23 @@ public class Course implements IBaseModel {
     }
 
     @Override
-    public void inputPersion(Scanner sc) {
+    public void inputData(Scanner sc) {
+        this.name = InputValidator.inputString(sc, "Nhập tên khóa học: ");
+
+        this.duration = InputValidator.inputInt(sc, "Nhập thời lượng khóa học (ngày): ");
+
+        this.instructor = InputValidator.inputString(sc, "Nhập tên giảng viên: ");
 
     }
 
     @Override
-    public void displayPersion() {
-
+    public void displayData() {
+        System.out.printf("| %-5d | %-25s | %-10d | %-20s | %-12s |\n",
+                id,
+                name,
+                duration,
+                instructor,
+                createdAt
+        );
     }
 }

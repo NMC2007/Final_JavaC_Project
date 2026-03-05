@@ -8,14 +8,14 @@ import java.util.Scanner;
 public class InputValidator {
 
     // nhập ID (int)
-    public static int inputId(Scanner sc, String title) {
+    public static int inputInt(Scanner sc, String title) {
         while (true) {
             try {
                 System.out.print(title);
-                int id = Integer.parseInt(sc.nextLine());
+                int num = Integer.parseInt(sc.nextLine());
 
-                if (id > 0) {
-                    return id;
+                if (num > 0) {
+                    return num;
                 }
 
                 System.out.println("ID phải lớn hơn 0!");
@@ -27,13 +27,13 @@ public class InputValidator {
 
 
     // nhập name (không được rỗng)
-    public static String inputName(Scanner sc, String title) {
+    public static String inputString(Scanner sc, String title) {
         while (true) {
             System.out.print(title);
-            String name = sc.nextLine().trim();
+            String string = sc.nextLine().trim();
 
-            if (!name.isEmpty()) {
-                return name;
+            if (!string.isEmpty()) {
+                return string;
             }
 
             System.out.println("Tên không được để trống!");
