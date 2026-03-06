@@ -1,6 +1,7 @@
 package dao;
 
 import dao.impl.ICourseCRUD;
+import dao.impl.ILogin;
 import model.Student;
 import utils.ConnectionDB;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class StudentDAOImpl implements ICourseCRUD<Student> {
+public class StudentDAOImpl implements ICourseCRUD<Student>, ILogin<Student> {
 
     @Override
     public void insert(Student student) {
@@ -182,5 +183,39 @@ public class StudentDAOImpl implements ICourseCRUD<Student> {
         }
 
         return studentList;
+    }
+
+    @Override
+    public Student login(String email, String password) {
+
+        String sql = "SELECT * FROM final_javac_prj_sch.student WHERE email = ? AND password = ?";
+
+        try (
+                Connection conn = ConnectionDB.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
+
+            ps.setString(1, email);
+            ps.setString(2, password);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                Student student = new Student();
+
+                student.setId(rs.getInt("id"));
+                student.setName(rs.getString("name"));
+                student.setEmail(rs.getString("email"));
+                student.setPassword(rs.getString("password"));
+
+                return student;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

@@ -9,5 +9,4 @@ public interface ICourseCRUD<T> {
     void delete(int id, Scanner sc);
     T findById(int id);
     List<T> findAll();
-
 }

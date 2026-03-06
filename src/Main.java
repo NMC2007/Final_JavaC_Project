@@ -1,4 +1,6 @@
+import persentation.AdminManagerMenu;
 import persentation.CourseManagerMenu;
+import persentation.LoginMenu;
 import persentation.StudentManagerMenu;
 
 import java.util.Scanner;
@@ -13,6 +15,8 @@ public class Main {
 
     private static void run(Scanner sc) {
 //        CourseManagerMenu.showMenu(sc);
-        StudentManagerMenu.showMenu(sc);
+//        StudentManagerMenu.showMenu(sc);
+//        AdminManagerMenu.showMenu(sc);
+        LoginMenu.showMenu(sc);
     }
 }
