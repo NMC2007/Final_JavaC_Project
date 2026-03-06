@@ -1,5 +1,9 @@
 package persentation;
 
-public class MainMenu {
+import java.util.Scanner;
 
+public class MainMenu {
+    public static void showMainMenu() {
+
+    }
 }

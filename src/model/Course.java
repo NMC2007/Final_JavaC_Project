@@ -71,7 +71,6 @@ public class Course implements IBaseModel {
         this.duration = InputValidator.inputInt(sc, "Nhập thời lượng khóa học (ngày): ");
 
         this.instructor = InputValidator.inputString(sc, "Nhập tên giảng viên: ");
-
     }
 
     @Override

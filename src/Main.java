@@ -1,4 +1,5 @@
 import persentation.CourseManagerMenu;
+import persentation.StudentManagerMenu;
 
 import java.util.Scanner;
 
@@ -11,6 +12,7 @@ public class Main {
     }
 
     private static void run(Scanner sc) {
-        CourseManagerMenu.showMenu(sc);
+//        CourseManagerMenu.showMenu(sc);
+        StudentManagerMenu.showMenu(sc);
     }
 }

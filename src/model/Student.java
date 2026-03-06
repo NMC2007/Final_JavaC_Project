@@ -1,6 +1,7 @@
 package model;
 
 import model.IBaseModel.IBaseModel;
+import validation.InputValidator;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -97,11 +98,34 @@ public class Student implements IBaseModel {
     //    override
     @Override
     public void inputData(Scanner sc) {
+        this.name = InputValidator.inputString(sc, "Nhập tên sinh viên: ");
 
+        this.dob = InputValidator.inputDate(sc, "Nhập ngày sinh (yyyy/MM/dd): ");
+
+        this.email = InputValidator.inputEmail(sc, "Nhập email: ");
+
+        int choiceSex = InputValidator.inputMenu(sc,
+                "Chọn giới tính:\n" +
+                        "1. Nam\n" +
+                        "2. Nữ\n" +
+                        "Lựa chọn của bạn: ",  2);
+        this.sex = (choiceSex == 1);
+
+        this.phone = InputValidator.inputPhone(sc, "Nhập số điện thoại: ");
+
+        this.password = InputValidator.inputString(sc, "Nhập mật khẩu: ");
     }
 
     @Override
     public void displayData() {
-
+        System.out.printf("| %-5d | %-20s | %-12s | %-25s | %-6s | %-15s | %-12s |\n",
+                id,
+                name,
+                dob,
+                email,
+                sex ? "Nam" : "Nữ",
+                phone,
+                createdAt
+        );
     }
 }
