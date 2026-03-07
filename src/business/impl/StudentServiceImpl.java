@@ -53,7 +53,98 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void updateData(Scanner sc) {
         int id = InputValidator.inputInt(sc, "Nhập ID sinh viên cần sửa: ");
+        Student student = studentDAO.findById(id);
+        if (student == null) {
+            System.out.println("❌ Không tìm thấy sinh viên với id = " + id);
+        } else {
+            Student updatedStudent = new Student();
 
+            // copy dữ liệu cũ
+            updatedStudent.setId(student.getId());
+            updatedStudent.setName(student.getName());
+            updatedStudent.setDob(student.getDob());
+            updatedStudent.setEmail(student.getEmail());
+            updatedStudent.setSex(student.isSex());
+            updatedStudent.setPhone(student.getPhone());
+            updatedStudent.setPassword(student.getPassword());
+
+            while (true) {
+
+                int choice = InputValidator.inputMenu(
+                        sc,
+                        "\n===== CHỌN THÔNG TIN CẦN SỬA =====\n" +
+                                "1. Sửa tên\n" +
+                                "2. Sửa ngày sinh\n" +
+                                "3. Sửa email\n" +
+                                "4. Sửa giới tính\n" +
+                                "5. Sửa số điện thoại\n" +
+                                "6. Lưu thay đổi\n" +
+                                "7. Hủy\n" +
+                                "Lựa chọn của bạn: ",
+                        7
+                );
+
+                switch (choice) {
+
+                    case 1:
+                        updatedStudent.setName(
+                                InputValidator.inputString(sc, "Nhập tên mới: ")
+                        );
+                        System.out.println("✅ Ghi nhận thay đổi");
+                        break;
+
+                    case 2:
+                        updatedStudent.setDob(
+                                InputValidator.inputDate(sc, "Nhập ngày sinh mới (dd/MM/yyyy): ")
+                        );
+                        System.out.println("✅ Ghi nhận thay đổi");
+                        break;
+
+                    case 3:
+                        updatedStudent.setEmail(
+                                InputValidator.inputEmail(sc, "Nhập email mới: ")
+                        );
+                        System.out.println("✅ Ghi nhận thay đổi");
+                        break;
+
+                    case 4:
+                        int sexChoice = InputValidator.inputMenu(
+                                sc,
+                                "Chọn giới tính:\n1. Nam\n2. Nữ\nLựa chọn: ",
+                                2
+                        );
+                        System.out.println("✅ Ghi nhận thay đổi");
+                        updatedStudent.setSex(sexChoice == 1);
+                        break;
+
+                    case 5:
+                        updatedStudent.setPhone(
+                                InputValidator.inputPhone(sc, "Nhập số điện thoại mới: ")
+                        );
+                        System.out.println("✅ Ghi nhận thay đổi");
+                        break;
+
+                    case 6:
+
+                        // kiểm tra email nếu có thay đổi
+                        if (!updatedStudent.getEmail().equals(student.getEmail())) {
+
+                            if (studentDAO.existsByEmail(updatedStudent.getEmail())) {
+                                System.out.println("❌ Email đã tồn tại! Không thể lưu thay đổi.");
+                                return;
+                            }
+                        }
+
+                        studentDAO.update(updatedStudent);
+
+                        return;
+
+                    case 7:
+                        System.out.println("⚠️ Đã hủy cập nhật.");
+                        return;
+                }
+            }
+        }
     }
 
     @Override

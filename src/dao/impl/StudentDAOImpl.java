@@ -42,7 +42,30 @@ public class StudentDAOImpl implements IDaoCRUD<Student>, IStudentDAO, ILogin<St
 
     @Override
     public void update(Student student) {
+        String sql = """
+            UPDATE final_javac_prj_sch.student
+            SET name = ?, dob = ?, email = ?, sex = ?, phone = ?, created_at = CURRENT_DATE
+            WHERE id = ?
+            """;
 
+        try (
+                Connection conn = ConnectionDB.getConnection();
+                PreparedStatement pre = conn.prepareStatement(sql)
+        ) {
+
+            pre.setString(1, student.getName());
+            pre.setDate(2, Date.valueOf(student.getDob()));
+            pre.setString(3, student.getEmail());
+            pre.setBoolean(4, student.isSex());
+            pre.setString(5, student.getPhone());
+            pre.setInt(6, student.getId());
+
+            pre.executeUpdate();
+            System.out.println("✅ Cập nhật sinh viên thành công!");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

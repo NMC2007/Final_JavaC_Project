@@ -12,10 +12,10 @@ public class StudentManagerMenu {
         while (true) {
 
             System.out.println("\n===== STUDENT MANAGEMENT =====");
-            System.out.println("1. Hiển thị danh sách học viên");
-            System.out.println("2. Thêm mới học viên");
-            System.out.println("3. Chỉnh sửa thông tin học viên");
-            System.out.println("4. Xóa học viên");
+            System.out.println("1. Hiển thị danh sách sinh viên");
+            System.out.println("2. Thêm mới sinh viên");
+            System.out.println("3. Chỉnh sửa thông tin sinh viên");
+            System.out.println("4. Xóa sinh viên");
             System.out.println("5. Tìm kiếm theo tên / email / id");
             System.out.println("6. Sắp xếp danh sách sinh viên");
             System.out.println("7. Quay về menu chính");

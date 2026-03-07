@@ -55,18 +55,21 @@ public class CourseServiceImpl implements CourseService {
                         course.setName(
                                 InputValidator.inputString(sc, "Nhập tên khóa học mới: ")
                         );
+                        System.out.println("✅ Ghi nhận thay đổi");
                         break;
 
                     case 2:
                         course.setDuration(
                                 InputValidator.inputInt(sc, "Nhập thời lượng mới: ")
                         );
+                        System.out.println("✅ Ghi nhận thay đổi");
                         break;
 
                     case 3:
                         course.setInstructor(
                                 InputValidator.inputString(sc, "Nhập tên giảng viên mới: ")
                         );
+                        System.out.println("✅ Ghi nhận thay đổi");
                         break;
 
                     case 4:
