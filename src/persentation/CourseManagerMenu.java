@@ -1,15 +1,14 @@
 package persentation;
 
-import dao.impl.CourseDAOImpl;
-import model.Course;
+import business.impl.CourseServiceImpl;
 import validation.InputValidator;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class CourseManagerMenu {
-    private static final CourseDAOImpl courseDAO = new CourseDAOImpl();
+    private static final CourseServiceImpl courseService = new CourseServiceImpl();
     public static void showMenu(Scanner sc) {
+
         while (true) {
 
             System.out.println("\n===== COURSE MANAGEMENT =====");
@@ -18,7 +17,7 @@ public class CourseManagerMenu {
             System.out.println("3. Chỉnh sửa thông tin khóa học");
             System.out.println("4. Xóa khóa học");
             System.out.println("5. Tìm kiếm theo tên");
-            System.out.println("6. Sắp xếp theo tên");
+            System.out.println("6. Sắp xếp danh sách khoá học");
             System.out.println("7. Quay về menu chính");
 
             int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn của bạn: ", 7);
@@ -42,11 +41,11 @@ public class CourseManagerMenu {
                     break;
 
                 case 5:
-                    // tìm kiếm theo tên
+                    filterByNameCourse(sc);
                     break;
 
                 case 6:
-                    // sắp xếp theo tên
+                    sortCourse(sc);
                     break;
 
                 case 7:
@@ -60,42 +59,28 @@ public class CourseManagerMenu {
 
 
     private static void showCourse() {
-        List<Course> courseList = courseDAO.findAll();
-
-        if (courseList.isEmpty()) {
-            System.out.println("Danh sách hiện chưa có khoá học nào");
-        } else {
-            System.out.println("----------------------------------------------------------------------------------------");
-            System.out.printf("| %-5s | %-25s | %-10s | %-20s | %-12s |\n",
-                    "ID", "NAME", "DURATION", "INSTRUCTOR", "CREATED");
-            System.out.println("----------------------------------------------------------------------------------------");
-
-            for (Course c : courseList) {
-                c.displayData();
-            }
-
-            System.out.println("----------------------------------------------------------------------------------------");
-        }
+        courseService.showData();
     }
 
     private static void createCourse(Scanner sc) {
-        Course newCourse = new Course();
-
-        newCourse.inputData(sc);
-
-        courseDAO.insert(newCourse);
+        courseService.createData(sc);
     }
 
 
     private static void updateCourse(Scanner sc) {
-        int id = InputValidator.inputInt(sc, "Nhập ID khoá học cần sửa: ");
-        courseDAO.update(id, sc);
+        courseService.updateData(sc);
     }
 
     private static void deleteCourse(Scanner sc) {
-        int id = InputValidator.inputInt(sc, "Nhập ID khoá học cần xoá: ");
+        courseService.deleteData(sc);
+    }
 
-        courseDAO.delete(id, sc);
+    private static void filterByNameCourse(Scanner sc) {
+        courseService.filterCourseByName(sc);
+    }
+
+    private static void sortCourse(Scanner sc) {
+        courseService.sortData(sc);
     }
 
 }

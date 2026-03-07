@@ -1,7 +1,8 @@
 package dao.impl;
 
-import dao.ICourseCRUD;
+import dao.IDaoCRUD;
 import dao.ILogin;
+import dao.IStudentDAO;
 import model.Student;
 import utils.ConnectionDB;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class StudentDAOImpl implements ICourseCRUD<Student>, ILogin<Student> {
+public class StudentDAOImpl implements IDaoCRUD<Student>, IStudentDAO, ILogin<Student> {
 
     @Override
     public void insert(Student student) {
@@ -40,35 +41,12 @@ public class StudentDAOImpl implements ICourseCRUD<Student>, ILogin<Student> {
     }
 
     @Override
-    public void update(int id, Scanner sc) {
+    public void update(Student student) {
 
-        Student student = findById(id);
-
-        if (student == null) {
-            System.out.println("❌ Không tìm thấy sinh viên với id = " + id);
-            return;
-        }
-
-        System.out.println("✅ Tìm thấy sinh viên. Chức năng update đang phát triển...");
     }
 
     @Override
-    public void delete(int id, Scanner sc) {
-
-        Student student = findById(id);
-
-        if (student == null) {
-            return;
-        }
-
-        System.out.print("Nhập y nếu chắc chắn muốn xoá: ");
-        String confirm = sc.nextLine();
-
-        if (!confirm.equalsIgnoreCase("y")) {
-            System.out.println("❌ Đã huỷ xoá.");
-            return;
-        }
-
+    public void delete(int id) {
         try (
                 Connection conn = ConnectionDB.getConnection();
                 PreparedStatement pre = conn.prepareStatement(
@@ -139,15 +117,11 @@ public class StudentDAOImpl implements ICourseCRUD<Student>, ILogin<Student> {
             e.printStackTrace();
         }
 
-        System.out.println("❌ Không tìm thấy sinh viên với id = " + id);
         return null;
     }
 
     @Override
     public List<Student> findAll() {
-
-        List<Student> studentList = new ArrayList<>();
-
         try (
                 Connection conn = ConnectionDB.getConnection();
                 PreparedStatement pre = conn.prepareStatement(
@@ -157,32 +131,56 @@ public class StudentDAOImpl implements ICourseCRUD<Student>, ILogin<Student> {
 
             ResultSet rs = pre.executeQuery();
 
-            while (rs.next()) {
-
-                Student student = new Student();
-
-                student.setId(rs.getInt("id"));
-                student.setName(rs.getString("name"));
-
-                Date dob = rs.getDate("dob");
-                student.setDob(dob.toLocalDate());
-
-                student.setEmail(rs.getString("email"));
-                student.setSex(rs.getBoolean("sex"));
-                student.setPhone(rs.getString("phone"));
-                student.setPassword(rs.getString("password"));
-
-                Date created = rs.getDate("created_at");
-                student.setCreatedAt(created.toLocalDate());
-
-                studentList.add(student);
-            }
+            return addList(rs);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return studentList;
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<Student> sort(int sortOption) {
+        String sqlCode = "SELECT * FROM final_javac_prj_sch.student";
+
+        switch (sortOption) {
+            case 1:
+//                id tăng dần
+                sqlCode += " ORDER BY id ASC";
+                break;
+            case 2:
+//                id giảm dần
+                sqlCode += " ORDER BY id DESC";
+                break;
+            case 3:
+//                tên tăng dần
+                sqlCode += " ORDER BY name ASC";
+                break;
+            case 4:
+//                tên giảm dần
+                sqlCode += " ORDER BY name DESC";
+                break;
+            default:
+                sqlCode += " ORDER BY id ASC";
+        }
+
+        try (
+                Connection conn = ConnectionDB.getConnection();
+                PreparedStatement pre = conn.prepareStatement(sqlCode);
+        ) {
+
+            ResultSet rs = pre.executeQuery();
+
+
+            return addList(rs);
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
     }
 
     @Override
@@ -217,5 +215,83 @@ public class StudentDAOImpl implements ICourseCRUD<Student>, ILogin<Student> {
         }
 
         return null;
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        try (
+                Connection conn = ConnectionDB.getConnection();
+                PreparedStatement pre = conn.prepareStatement("SELECT 1 FROM final_javac_prj_sch.student WHERE email = ?")
+        ) {
+
+            pre.setString(1, email);
+
+            ResultSet rs = pre.executeQuery();
+
+            return rs.next(); // true nếu tồn tại
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    @Override
+    public List<Student> filterStudent(int option, String Data) {
+        String sql = "SELECT * FROM final_javac_prj_sch.student";
+
+        switch (option) {
+            case 1:
+                sql += " WHERE name LIKE ?";
+                break;
+            case 2:
+                sql += " WHERE email LIKE ?";
+                break;
+            default:
+                sql += " WHERE name LIKE ?";
+        }
+
+        try (
+                Connection conn = ConnectionDB.getConnection();
+                PreparedStatement pre = conn.prepareStatement(sql);
+        ) {
+            pre.setString(1, "%" + Data + "%");
+            ResultSet rs = pre.executeQuery();
+
+            return addList(rs);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
+
+
+
+    private List<Student> addList(ResultSet rs) throws SQLException {
+        List<Student> studentList = new ArrayList<>();
+
+        while (rs.next()) {
+            Student student = new Student();
+            student.setId(rs.getInt("id"));
+            student.setName(rs.getString("name"));
+
+            Date dob = rs.getDate("dob");
+            student.setDob(dob.toLocalDate());
+
+            student.setEmail(rs.getString("email"));
+            student.setSex(rs.getBoolean("sex"));
+            student.setPhone(rs.getString("phone"));
+            student.setPassword(rs.getString("password"));
+
+            Date created = rs.getDate("created_at");
+            student.setCreatedAt(created.toLocalDate());
+
+            studentList.add(student);
+        }
+
+        return studentList;
     }
 }

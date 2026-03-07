@@ -100,7 +100,7 @@ public class Student implements IBaseModel {
     public void inputData(Scanner sc) {
         this.name = InputValidator.inputString(sc, "Nhập tên sinh viên: ");
 
-        this.dob = InputValidator.inputDate(sc, "Nhập ngày sinh (yyyy/MM/dd): ");
+        this.dob = InputValidator.inputDate(sc, "Nhập ngày sinh (dd/MM/yyyy): ");
 
         this.email = InputValidator.inputEmail(sc, "Nhập email: ");
 
