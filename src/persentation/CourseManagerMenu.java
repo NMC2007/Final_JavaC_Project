@@ -1,6 +1,6 @@
 package persentation;
 
-import dao.CourseDAOImpl;
+import dao.impl.CourseDAOImpl;
 import model.Course;
 import validation.InputValidator;
 

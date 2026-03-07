@@ -1,7 +1,7 @@
 package persentation;
 
-import business.AdminLogin;
-import business.StudentLogin;
+import business.impl.AdminLogin;
+import business.impl.StudentLogin;
 import validation.InputValidator;
 
 import java.util.Scanner;

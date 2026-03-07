@@ -1,6 +1,6 @@
-package dao;
+package dao.impl;
 
-import dao.impl.ILogin;
+import dao.ILogin;
 import model.Admin;
 import utils.ConnectionDB;
 

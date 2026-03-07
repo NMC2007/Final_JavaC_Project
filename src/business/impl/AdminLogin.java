@@ -1,7 +1,7 @@
-package business;
+package business.impl;
 
-import business.impl.ILoginBusiness;
-import dao.AdminDAOImpl;
+import business.ILoginBusiness;
+import dao.impl.AdminDAOImpl;
 import model.Admin;
 import validation.InputValidator;
 

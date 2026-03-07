@@ -1,7 +1,7 @@
-package dao;
+package dao.impl;
 
-import dao.impl.ICourseCRUD;
-import dao.impl.ILogin;
+import dao.ICourseCRUD;
+import dao.ILogin;
 import model.Student;
 import utils.ConnectionDB;
 

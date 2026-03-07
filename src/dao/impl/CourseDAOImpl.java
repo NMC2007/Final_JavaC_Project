@@ -1,6 +1,6 @@
-package dao;
+package dao.impl;
 
-import dao.impl.ICourseCRUD;
+import dao.ICourseCRUD;
 import model.Course;
 import utils.ConnectionDB;
 

@@ -1,7 +1,7 @@
-package business;
+package business.impl;
 
-import business.impl.ILoginBusiness;
-import dao.StudentDAOImpl;
+import business.ILoginBusiness;
+import dao.impl.StudentDAOImpl;
 import model.Student;
 import validation.InputValidator;
 
