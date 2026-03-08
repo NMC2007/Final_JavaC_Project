@@ -1,7 +1,7 @@
 package business.impl;
 
 import business.CourseService;
-import dao.impl.CourseDAOImpl;
+import dao.impl.CourseManagerDAOImpl;
 import model.Course;
 import validation.InputValidator;
 
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CourseServiceImpl implements CourseService {
-    private static final CourseDAOImpl courseDAO = new CourseDAOImpl();
+    private static final CourseManagerDAOImpl courseDAO = new CourseManagerDAOImpl();
 
     @Override
     public void showData() {

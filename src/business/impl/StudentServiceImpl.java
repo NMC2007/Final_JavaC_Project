@@ -1,7 +1,7 @@
 package business.impl;
 
 import business.StudentService;
-import dao.impl.StudentDAOImpl;
+import dao.impl.StudentManagerDAOImpl;
 import model.Student;
 import validation.InputValidator;
 
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class StudentServiceImpl implements StudentService {
-    private static final StudentDAOImpl studentDAO = new StudentDAOImpl();
+    private static final StudentManagerDAOImpl studentDAO = new StudentManagerDAOImpl();
     @Override
     public void showData() {
         List<Student> studentList = studentDAO.findAll();

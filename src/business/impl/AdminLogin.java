@@ -8,7 +8,7 @@ import validation.InputValidator;
 import java.util.Scanner;
 
 public class AdminLogin implements ILoginBusiness {
-    public boolean CheckLogin(Scanner sc) {
+    public int CheckLogin(Scanner sc) {
         String username = InputValidator.inputString(sc, "Tên đăng nhập:\n");
         String password = InputValidator.inputString(sc, "Mật khẩu;\n");
 
@@ -24,10 +24,10 @@ public class AdminLogin implements ILoginBusiness {
                     ID: %d
                     Tên: %s
                     """, admin.getId(), admin.getUsername());
-            return true;
+            return admin.getId();
         } else  {
             System.out.println("Tên đăng nhập hoặc mật khẩu không đúng");
-            return false;
+            return -1;
         }
     }
 }

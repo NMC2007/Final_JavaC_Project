@@ -4,6 +4,6 @@ import model.Course;
 
 import java.util.List;
 
-public interface ICourseDAO {
+public interface ICourseManagerDAO {
     List<Course> filterByName(String courseName);
 }

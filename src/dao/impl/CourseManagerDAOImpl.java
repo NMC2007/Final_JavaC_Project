@@ -1,6 +1,6 @@
 package dao.impl;
 
-import dao.ICourseDAO;
+import dao.ICourseManagerDAO;
 import dao.IDaoCRUD;
 import model.Course;
 import utils.ConnectionDB;
@@ -8,9 +8,8 @@ import utils.ConnectionDB;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-public class CourseDAOImpl implements IDaoCRUD<Course>, ICourseDAO {
+public class CourseManagerDAOImpl implements IDaoCRUD<Course>, ICourseManagerDAO {
 
     @Override
     public void insert(Course course) {

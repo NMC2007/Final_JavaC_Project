@@ -36,15 +36,17 @@ public class LoginMenu {
 
     private static void loginAdmin(Scanner sc) {
         AdminLogin adminLogin = new AdminLogin();
-        if (adminLogin.CheckLogin(sc)) {
-            AdminManagerMenu.showMenu(sc);
+        int id = adminLogin.CheckLogin(sc);
+        if (id > 0) {
+            AdminManagerMenu.showMenu(sc, id);
         }
     }
 
     private static void loginStudent(Scanner sc) {
         StudentLogin studentLogin = new StudentLogin();
-        if (studentLogin.CheckLogin(sc)) {
-            StudentManagerMenu.showMenu(sc);
+        int id = studentLogin.CheckLogin(sc);
+        if (id > 0) {
+            StudentViewMenu.showMenu(sc, id);
         }
     }
 }

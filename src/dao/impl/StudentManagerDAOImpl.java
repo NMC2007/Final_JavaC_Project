@@ -2,16 +2,15 @@ package dao.impl;
 
 import dao.IDaoCRUD;
 import dao.ILogin;
-import dao.IStudentDAO;
+import dao.IStudentManagerDAO;
 import model.Student;
 import utils.ConnectionDB;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-public class StudentDAOImpl implements IDaoCRUD<Student>, IStudentDAO, ILogin<Student> {
+public class StudentManagerDAOImpl implements IDaoCRUD<Student>, IStudentManagerDAO, ILogin<Student> {
 
     @Override
     public void insert(Student student) {

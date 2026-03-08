@@ -5,7 +5,7 @@ import validation.InputValidator;
 import java.util.Scanner;
 
 public class AdminManagerMenu {
-    public static void showMenu(Scanner sc) {
+    public static void showMenu(Scanner sc, int id) {
 
         while (true) {
 

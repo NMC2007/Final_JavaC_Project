@@ -1,12 +1,10 @@
 package model;
 
-import model.IBaseModel.IBaseModel;
+import model.IBaseModel.IBaseEnrollment;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Scanner;
 
-public class Enrollment implements IBaseModel {
+public class Enrollment implements IBaseEnrollment {
     private int id;
     private int studentId;
     private int courseId;
@@ -65,12 +63,10 @@ public class Enrollment implements IBaseModel {
     }
 
     @Override
-    public void inputData(Scanner sc) {
-
-    }
-
-    @Override
-    public void displayData() {
+    public void inputData(int studentId, int courseId) {
+        this.studentId = studentId;
+        this.courseId = courseId;
+        this.registeredAt = LocalDateTime.now();
 
     }
 }
