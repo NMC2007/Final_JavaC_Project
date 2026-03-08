@@ -2,6 +2,9 @@ package business.impl;
 
 import business.CourseService;
 import dao.impl.CourseManagerDAOImpl;
+import enums.DeleteStatusEnum;
+import enums.InsertStatusEnum;
+import enums.UpdateStatusEnum;
 import model.Course;
 import validation.InputValidator;
 
@@ -15,7 +18,7 @@ public class CourseServiceImpl implements CourseService {
     public void showData() {
         List<Course> courseList = courseDAO.findAll();
         if (courseList.isEmpty()) {
-            System.out.println("Danh sách hiện chưa có khoá học nào");
+            System.out.println("Danh sách hiện chưa có khoá học nào.");
         } else {
             printTable(courseList);
         }
@@ -27,7 +30,16 @@ public class CourseServiceImpl implements CourseService {
 
         newCourse.inputData(sc);
 
-        courseDAO.insert(newCourse);
+        InsertStatusEnum result = courseDAO.insert(newCourse);
+
+        switch (result) {
+            case SUCCESS:
+                System.out.println("✅ Thêm khoá học thành công!");
+                break;
+            case ERROR:
+                System.out.println("❌  Lỗi! Không thể thêm khóa học.");
+                break;
+        }
     }
 
     @Override
@@ -38,6 +50,8 @@ public class CourseServiceImpl implements CourseService {
         if (course == null) {
             System.out.println("❌ Không tìm thấy khóa học với id = " + id);
         } else {
+            System.out.println("✅ Tìm thấy khóa học:");
+            printCourse(course);
             while (true) {
 
                 System.out.println("\nChọn thông tin cần sửa:");
@@ -55,29 +69,37 @@ public class CourseServiceImpl implements CourseService {
                         course.setName(
                                 InputValidator.inputString(sc, "Nhập tên khóa học mới: ")
                         );
-                        System.out.println("✅ Ghi nhận thay đổi");
+                        System.out.println("✅ Ghi nhận thay đổi.");
                         break;
 
                     case 2:
                         course.setDuration(
                                 InputValidator.inputInt(sc, "Nhập thời lượng mới: ")
                         );
-                        System.out.println("✅ Ghi nhận thay đổi");
+                        System.out.println("✅ Ghi nhận thay đổi.");
                         break;
 
                     case 3:
                         course.setInstructor(
                                 InputValidator.inputString(sc, "Nhập tên giảng viên mới: ")
                         );
-                        System.out.println("✅ Ghi nhận thay đổi");
+                        System.out.println("✅ Ghi nhận thay đổi.");
                         break;
 
                     case 4:
-                        courseDAO.update(course);
+                        UpdateStatusEnum result = courseDAO.update(course);
+                        switch (result) {
+                            case SUCCESS:
+                                System.out.println("✅ Cập nhật khoá học thành công!");
+                                break;
+                            case ERROR:
+                                System.out.println("❌ Lỗi! Không thể cập nhật khoá học.");
+                                break;
+                        }
                         return;
 
                     case 5:
-                        System.out.println("❌ Hủy cập nhật");
+                        System.out.println("❌ Hủy cập nhật.");
                         return;
                 }
             }
@@ -92,11 +114,22 @@ public class CourseServiceImpl implements CourseService {
         if (course == null) {
             System.out.println("❌ Không tìm thấy khóa học với id = " + id);
         } else {
+            System.out.println("✅ Tìm thấy khóa học:");
+            printCourse(course);
+
             String confirm = InputValidator.inputString(sc, "Để xác nhận xoá hãy nhập y: ");
             if (!confirm.equalsIgnoreCase("y")) {
                 System.out.println("❌ Đã huỷ xoá.");
             } else {
-                courseDAO.delete(id);
+                DeleteStatusEnum result = courseDAO.delete(id);
+                switch (result) {
+                    case SUCCESS:
+                        System.out.println("✅ Xoá khóa học thành công!");
+                        break;
+                    case ERROR:
+                        System.out.println("❌ Lỗi! Không thể xoá khoá học.");
+                        break;
+                }
             }
         }
     }
@@ -130,7 +163,7 @@ public class CourseServiceImpl implements CourseService {
         List<Course> courseList = courseDAO.sort(option);
 
         if (courseList.isEmpty()) {
-            System.out.println("Danh sách hiện chưa có khoá học nào");
+            System.out.println("Danh sách hiện chưa có khoá học nào.");
         } else {
             System.out.println("Khoá học tìm được:");;
             printTable(courseList);
@@ -142,11 +175,18 @@ public class CourseServiceImpl implements CourseService {
         System.out.printf("| %-5s | %-25s | %-10s | %-20s | %-12s |\n",
                 "ID", "NAME", "DURATION", "INSTRUCTOR", "CREATED");
         System.out.println("----------------------------------------------------------------------------------------");
-
         for (Course c : courseList) {
             c.displayData();
         }
+        System.out.println("----------------------------------------------------------------------------------------");
+    }
 
+    private static void printCourse(Course course) {
+        System.out.println("----------------------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-25s | %-10s | %-20s | %-12s |\n",
+                "ID", "NAME", "DURATION", "INSTRUCTOR", "CREATED");
+        System.out.println("----------------------------------------------------------------------------------------");
+        course.displayData();
         System.out.println("----------------------------------------------------------------------------------------");
     }
 }

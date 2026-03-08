@@ -26,7 +26,7 @@ public class AdminLogin implements ILoginBusiness {
                     """, admin.getId(), admin.getUsername());
             return admin.getId();
         } else  {
-            System.out.println("Tên đăng nhập hoặc mật khẩu không đúng");
+            System.out.println("❌ Tên đăng nhập hoặc mật khẩu không đúng.");
             return -1;
         }
     }

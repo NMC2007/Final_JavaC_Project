@@ -2,6 +2,9 @@ package dao.impl;
 
 import dao.ICourseManagerDAO;
 import dao.IDaoCRUD;
+import enums.DeleteStatusEnum;
+import enums.InsertStatusEnum;
+import enums.UpdateStatusEnum;
 import model.Course;
 import utils.ConnectionDB;
 
@@ -12,7 +15,7 @@ import java.util.List;
 public class CourseManagerDAOImpl implements IDaoCRUD<Course>, ICourseManagerDAO {
 
     @Override
-    public void insert(Course course) {
+    public InsertStatusEnum insert(Course course) {
 
         try (
                 Connection conn = ConnectionDB.getConnection();
@@ -23,18 +26,20 @@ public class CourseManagerDAOImpl implements IDaoCRUD<Course>, ICourseManagerDAO
             pre.setInt(2, course.getDuration());
             pre.setString(3, course.getInstructor());
 
-            pre.execute();
+            int rows = pre.executeUpdate();
 
-            System.out.println("✅ Thêm khoá học thành công!");
+            if (rows > 0) {
+                return InsertStatusEnum.SUCCESS;
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        return InsertStatusEnum.ERROR;
     }
 
     @Override
-    public void update(Course course) {
+    public UpdateStatusEnum update(Course course) {
 
         try (
                 Connection conn = ConnectionDB.getConnection();
@@ -50,17 +55,20 @@ public class CourseManagerDAOImpl implements IDaoCRUD<Course>, ICourseManagerDAO
             ps.setString(3, course.getInstructor());
             ps.setInt(4, course.getId());
 
-            ps.executeUpdate();
-            System.out.println("✅ Cập nhật khoá học thành công");
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                return UpdateStatusEnum.SUCCESS;
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return UpdateStatusEnum.ERROR;
     }
 
 
     @Override
-    public void delete(int id) {
+    public DeleteStatusEnum delete(int id) {
         try (
                 Connection conn = ConnectionDB.getConnection();
                 PreparedStatement pre = conn.prepareStatement(
@@ -73,12 +81,13 @@ public class CourseManagerDAOImpl implements IDaoCRUD<Course>, ICourseManagerDAO
             int rows = pre.executeUpdate();
 
             if (rows > 0) {
-                System.out.println("✅ Xoá khóa học thành công!");
+                return  DeleteStatusEnum.SUCCESS;
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return DeleteStatusEnum.ERROR;
     }
 
     @Override
@@ -105,17 +114,6 @@ public class CourseManagerDAOImpl implements IDaoCRUD<Course>, ICourseManagerDAO
 
                 java.sql.Date sqlDate = rs.getDate("created_at");
                 course.setCreatedAt(sqlDate.toLocalDate());
-
-                System.out.println("✅ Tìm thấy khóa học:");
-
-                System.out.println("----------------------------------------------------------------------------------------");
-                System.out.printf("| %-5s | %-25s | %-10s | %-20s | %-12s |\n",
-                        "ID", "NAME", "DURATION", "INSTRUCTOR", "CREATED");
-                System.out.println("----------------------------------------------------------------------------------------");
-                course.displayData();
-                System.out.println("----------------------------------------------------------------------------------------");
-
-
 
                 return course;
             }

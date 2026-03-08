@@ -30,7 +30,7 @@ public class StudentLogin implements ILoginBusiness {
 
             return student.getId();
         } else {
-            System.out.println("Email hoặc mật khẩu không đúng");
+            System.out.println("❌ Email hoặc mật khẩu không đúng.");
             return -1;
         }
     }

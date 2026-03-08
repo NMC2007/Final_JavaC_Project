@@ -1,6 +1,7 @@
 package persentation;
 
 import business.impl.AdminLogin;
+import business.impl.LoginService;
 import business.impl.StudentLogin;
 import validation.InputValidator;
 
@@ -35,18 +36,10 @@ public class LoginMenu {
     }
 
     private static void loginAdmin(Scanner sc) {
-        AdminLogin adminLogin = new AdminLogin();
-        int id = adminLogin.CheckLogin(sc);
-        if (id > 0) {
-            AdminManagerMenu.showMenu(sc, id);
-        }
+        LoginService.loginAdmin(sc);
     }
 
     private static void loginStudent(Scanner sc) {
-        StudentLogin studentLogin = new StudentLogin();
-        int id = studentLogin.CheckLogin(sc);
-        if (id > 0) {
-            StudentViewMenu.showMenu(sc, id);
-        }
+        LoginService.loginStudent(sc);
     }
 }

@@ -3,6 +3,9 @@ package dao.impl;
 import dao.IDaoCRUD;
 import dao.ILogin;
 import dao.IStudentManagerDAO;
+import enums.DeleteStatusEnum;
+import enums.InsertStatusEnum;
+import enums.UpdateStatusEnum;
 import model.Student;
 import utils.ConnectionDB;
 
@@ -13,7 +16,7 @@ import java.util.List;
 public class StudentManagerDAOImpl implements IDaoCRUD<Student>, IStudentManagerDAO, ILogin<Student> {
 
     @Override
-    public void insert(Student student) {
+    public InsertStatusEnum insert(Student student) {
 
         try (
                 Connection conn = ConnectionDB.getConnection();
@@ -29,18 +32,20 @@ public class StudentManagerDAOImpl implements IDaoCRUD<Student>, IStudentManager
             pre.setString(5, student.getPhone());
             pre.setString(6, student.getPassword());
 
-            pre.execute();
+            int rows = pre.executeUpdate();
 
-            System.out.println("✅ Thêm sinh viên thành công!");
+            if (rows > 0) {
+                return InsertStatusEnum.SUCCESS;
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        return InsertStatusEnum.ERROR;
     }
 
     @Override
-    public void update(Student student) {
+    public UpdateStatusEnum update(Student student) {
         String sql = """
             UPDATE final_javac_prj_sch.student
             SET name = ?, dob = ?, email = ?, sex = ?, phone = ?, created_at = CURRENT_DATE
@@ -59,16 +64,19 @@ public class StudentManagerDAOImpl implements IDaoCRUD<Student>, IStudentManager
             pre.setString(5, student.getPhone());
             pre.setInt(6, student.getId());
 
-            pre.executeUpdate();
-            System.out.println("✅ Cập nhật sinh viên thành công!");
+            int rows = pre.executeUpdate();
+            if (rows > 0) {
+                return UpdateStatusEnum.SUCCESS;
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return UpdateStatusEnum.ERROR;
     }
 
     @Override
-    public void delete(int id) {
+    public DeleteStatusEnum delete(int id) {
         try (
                 Connection conn = ConnectionDB.getConnection();
                 PreparedStatement pre = conn.prepareStatement(
@@ -81,12 +89,13 @@ public class StudentManagerDAOImpl implements IDaoCRUD<Student>, IStudentManager
             int rows = pre.executeUpdate();
 
             if (rows > 0) {
-                System.out.println("✅ Xoá sinh viên thành công!");
+                return DeleteStatusEnum.SUCCESS;
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return DeleteStatusEnum.ERROR;
     }
 
     @Override
@@ -120,17 +129,6 @@ public class StudentManagerDAOImpl implements IDaoCRUD<Student>, IStudentManager
 
                 Date created = rs.getDate("created_at");
                 student.setCreatedAt(created.toLocalDate());
-
-                System.out.println("✅ Tìm thấy sinh viên:");
-
-                System.out.println("--------------------------------------------------------------------------------------------------------------------");
-                System.out.printf("| %-5s | %-20s | %-12s | %-25s | %-6s | %-15s | %-12s |\n",
-                        "ID", "NAME", "DOB", "EMAIL", "SEX", "PHONE", "CREATED");
-                System.out.println("--------------------------------------------------------------------------------------------------------------------");
-
-                student.displayData();
-
-                System.out.println("--------------------------------------------------------------------------------------------------------------------");
 
                 return student;
             }

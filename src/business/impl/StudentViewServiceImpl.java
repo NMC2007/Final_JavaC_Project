@@ -1,10 +1,11 @@
 package business.impl;
 
-
 import business.StudentViewService;
 import dao.impl.CourseManagerDAOImpl;
-import dao.impl.StudentManagerDAOImpl;
 import dao.impl.StudentViewDAOImpl;
+import enums.DeleteStatusEnum;
+import enums.InsertStatusEnum;
+import enums.UpdateStatusEnum;
 import model.Course;
 import model.Enrollment;
 import model.EnrollmentView;
@@ -22,9 +23,9 @@ public class StudentViewServiceImpl implements StudentViewService {
     public void showCourse() {
         List<Course> courseList = studentViewDAO.showListCourse();
         if (courseList.isEmpty()) {
-            System.out.println("Danh sách hiện chưa có khoá học nào");
+            System.out.println("\nDanh sách hiện chưa có khoá học nào.");
         } else {
-            System.out.println("\nDanh sách các khoá học");
+            System.out.println("\nDanh sách các khoá học:");
             printTableCourse(courseList);
         }
     }
@@ -33,7 +34,7 @@ public class StudentViewServiceImpl implements StudentViewService {
     public void showEnrollment(int idStudent) {
         List<EnrollmentView> enrollmentList = studentViewDAO.showListEnrollments(idStudent);
         if (enrollmentList.isEmpty()) {
-            System.out.println("Bạn chưa đăng ký khoá học nào");
+            System.out.println("\nBạn chưa đăng ký khoá học nào.");
         } else {
             System.out.println("\nCác khoá học đã đăng ký:");
             printTableEnrollment(enrollmentList);
@@ -44,13 +45,26 @@ public class StudentViewServiceImpl implements StudentViewService {
     public void createEnrollment(Scanner sc, int idStudent) {
 //        tạo xong thêm id vào rồi cho nhập id khoá học sv tự chọn
         int idCourse = InputValidator.inputInt(sc, "Nhập id khoá học muốn đăng ký: ");
-        if (courseDAO.findById(idCourse) == null) {
+        Course course = courseDAO.findById(idCourse);
+        if (course == null) {
             System.out.println("❌ Không tìm thấy khoá học với id = " + idCourse);
         } else {
+            System.out.println("✅ Tìm thấy khóa học:");
+            printCourse(course);
+
             Enrollment newEnrollment = new Enrollment();
+
             newEnrollment.inputData(idStudent ,idCourse);
 
-            studentViewDAO.createEnrollment(newEnrollment);
+            InsertStatusEnum result = studentViewDAO.createEnrollment(newEnrollment);
+            switch (result) {
+                case SUCCESS:
+                    System.out.println("✅ Đăng ký thành công!");
+                    break;
+                case ERROR:
+                    System.out.println("❌ Đăng ký không thành công!");
+                    break;
+            }
         }
 
     }
@@ -59,7 +73,21 @@ public class StudentViewServiceImpl implements StudentViewService {
     public void deleteEnrollment(Scanner sc, int idStudent) {
         int idCourse = InputValidator.inputInt(sc, "Nhập id khoá học muốn xoá: ");
 
-        studentViewDAO.deleteEnrollment(idStudent, idCourse);
+        DeleteStatusEnum result = studentViewDAO.deleteEnrollment(idStudent, idCourse);
+        switch (result) {
+            case SUCCESS:
+                System.out.println("✅ Huỷ đăng ký khóa học thành công!");
+                break;
+            case DOSE_NOT_EXIST:
+                System.out.println("❌ Bạn chưa đăng ký khóa học này.");
+                break;
+            case UNAUTHORIZED:
+                System.out.println("❌ Khóa học không thể huỷ.\n(Chỉ huỷ được khi còn trong trạng thái chờ)");
+                break;
+            case ERROR:
+                System.out.println("❌ Lỗi! Không thể huỷ khoá học.");
+                break;
+        }
     }
 
     @Override
@@ -82,13 +110,22 @@ public class StudentViewServiceImpl implements StudentViewService {
             confirmPassword = InputValidator.inputString(sc, "Xác nhận mật khẩu: ");
 
             if (!newPassword.equals(confirmPassword)) {
-                System.out.println("❌ Mật khẩu xác nhận không khớp, nhập lại");
+                System.out.println("❌ Mật khẩu xác nhận không khớp, nhập lại.");
             } else {
                 break;
             }
         }
 
-        studentViewDAO.updatePassword(idStudent, newPassword);
+        UpdateStatusEnum result = studentViewDAO.updatePassword(idStudent, newPassword);
+
+        switch (result) {
+            case SUCCESS:
+                System.out.println("✅ Thay đổi mật khẩu thành công!");
+                break;
+            case ERROR:
+                System.out.println("❌ Lỗi! Không thể thay đổi mật khẩu.");
+                break;
+        }
     }
 
 
@@ -96,11 +133,9 @@ public class StudentViewServiceImpl implements StudentViewService {
         System.out.println("------------------------------------------------------------------------");
         System.out.printf("| %-25s | %-35s | %-10s |\n", "Course Name", "Registered At", "Status");
         System.out.println("------------------------------------------------------------------------");
-
         for (EnrollmentView enrollment : enrollmentList) {
             enrollment.display();
         }
-
         System.out.println("------------------------------------------------------------------------");
     }
 
@@ -109,11 +144,18 @@ public class StudentViewServiceImpl implements StudentViewService {
         System.out.printf("| %-5s | %-25s | %-10s | %-20s | %-12s |\n",
                 "ID", "NAME", "DURATION", "INSTRUCTOR", "CREATED");
         System.out.println("----------------------------------------------------------------------------------------");
-
         for (Course c : courseList) {
             c.displayData();
         }
+        System.out.println("----------------------------------------------------------------------------------------");
+    }
 
+    private static void printCourse(Course course) {
+        System.out.println("----------------------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-25s | %-10s | %-20s | %-12s |\n",
+                "ID", "NAME", "DURATION", "INSTRUCTOR", "CREATED");
+        System.out.println("----------------------------------------------------------------------------------------");
+        course.displayData();
         System.out.println("----------------------------------------------------------------------------------------");
     }
 }

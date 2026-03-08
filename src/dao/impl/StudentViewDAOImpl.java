@@ -1,6 +1,9 @@
 package dao.impl;
 
 import dao.IStudentViewDAO;
+import enums.DeleteStatusEnum;
+import enums.InsertStatusEnum;
+import enums.UpdateStatusEnum;
 import model.Course;
 import model.Enrollment;
 import model.EnrollmentView;
@@ -54,7 +57,7 @@ public class StudentViewDAOImpl implements IStudentViewDAO {
     }
 
     @Override
-    public void createEnrollment(Enrollment enrollment) {
+    public InsertStatusEnum createEnrollment(Enrollment enrollment) {
         try (
                 Connection conn = ConnectionDB.getConnection();
                 PreparedStatement pre = conn.prepareStatement("INSERT INTO final_javac_prj_sch.enrollment (student_id, course_id) VALUES (?, ?)");
@@ -63,17 +66,19 @@ public class StudentViewDAOImpl implements IStudentViewDAO {
             pre.setInt(1, enrollment.getStudentId());
             pre.setInt(2, enrollment.getCourseId());
 
-            pre.execute();
-
-            System.out.println("✅ Đăng ký thành công");
+            int row = pre.executeUpdate();
+            if (row > 0) {
+                return InsertStatusEnum.SUCCESS;
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return InsertStatusEnum.ERROR;
     }
 
     @Override
-    public void deleteEnrollment(int idStudent, int idCourse) {
+    public DeleteStatusEnum deleteEnrollment(int idStudent, int idCourse) {
         try (
                 Connection conn = ConnectionDB.getConnection();
                 PreparedStatement check = conn.prepareStatement(
@@ -87,15 +92,15 @@ public class StudentViewDAOImpl implements IStudentViewDAO {
             ResultSet rs = check.executeQuery();
 
             if (!rs.next()) {
-                System.out.println("❌ Bạn chưa đăng ký khóa học này.");
-                return;
+//                ❌ Bạn chưa đăng ký khóa học này.
+                return DeleteStatusEnum.DOSE_NOT_EXIST;
             }
 
             String status = rs.getString("status");
 
             if (!"WAITING".equalsIgnoreCase(status)) {
-                System.out.println("❌ Khóa học đã được duyệt, không thể huỷ.");
-                return;
+//                ❌ Khóa học đã được duyệt, không thể huỷ.
+                return DeleteStatusEnum.UNAUTHORIZED;
             }
 
             try (
@@ -110,16 +115,16 @@ public class StudentViewDAOImpl implements IStudentViewDAO {
                 int rows = delete.executeUpdate();
 
                 if (rows > 0) {
-                    System.out.println("✅ Huỷ đăng ký khóa học thành công.");
-                } else {
-                    System.out.println("❌ Không thể xoá.");
+//                    ✅ Huỷ đăng ký khóa học thành công.
+                    return DeleteStatusEnum.SUCCESS;
                 }
-
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+//        ❌ Lỗi không huỷ được.
+        return DeleteStatusEnum.ERROR;
     }
 
     @Override
@@ -148,7 +153,7 @@ public class StudentViewDAOImpl implements IStudentViewDAO {
     }
 
     @Override
-    public void updatePassword(int idStudent, String password) {
+    public UpdateStatusEnum updatePassword(int idStudent, String password) {
         try (
                 Connection conn = ConnectionDB.getConnection();
                 PreparedStatement pre = conn.prepareStatement(
@@ -162,14 +167,13 @@ public class StudentViewDAOImpl implements IStudentViewDAO {
             int rows = pre.executeUpdate();
 
             if (rows > 0) {
-                System.out.println("✅ Cập nhật mật khẩu thành công");
-            } else {
-                System.out.println("❌ Cập nhật không thành công");
+                return UpdateStatusEnum.SUCCESS;
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return UpdateStatusEnum.ERROR;
     }
 
 

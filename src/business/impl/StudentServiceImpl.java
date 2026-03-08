@@ -2,6 +2,9 @@ package business.impl;
 
 import business.StudentService;
 import dao.impl.StudentManagerDAOImpl;
+import enums.DeleteStatusEnum;
+import enums.InsertStatusEnum;
+import enums.UpdateStatusEnum;
 import model.Student;
 import validation.InputValidator;
 
@@ -15,7 +18,7 @@ public class StudentServiceImpl implements StudentService {
         List<Student> studentList = studentDAO.findAll();
 
         if (studentList.isEmpty()) {
-            System.out.println("Danh sách hiện chưa có sinh viên nào");
+            System.out.println("Danh sách hiện chưa có sinh viên nào.");
         } else {
             printTable(studentList);
         }
@@ -47,16 +50,29 @@ public class StudentServiceImpl implements StudentService {
             student.setEmail(newEmail);
         }
 
-        studentDAO.insert(student);
+        InsertStatusEnum result = studentDAO.insert(student);
+
+        switch (result) {
+            case SUCCESS:
+                System.out.println("✅ Thêm sinh viên thành công!");
+                break;
+            case ERROR:
+                System.out.println("❌ Lỗi! Không thể thêm Sinh viên.");
+                break;
+        }
     }
 
     @Override
     public void updateData(Scanner sc) {
         int id = InputValidator.inputInt(sc, "Nhập ID sinh viên cần sửa: ");
         Student student = studentDAO.findById(id);
+
         if (student == null) {
             System.out.println("❌ Không tìm thấy sinh viên với id = " + id);
         } else {
+            System.out.println("✅ Tìm thấy sinh viên:");
+            printStudent(student);
+
             Student updatedStudent = new Student();
 
             // copy dữ liệu cũ
@@ -90,21 +106,21 @@ public class StudentServiceImpl implements StudentService {
                         updatedStudent.setName(
                                 InputValidator.inputString(sc, "Nhập tên mới: ")
                         );
-                        System.out.println("✅ Ghi nhận thay đổi");
+                        System.out.println("✅ Ghi nhận thay đổi.");
                         break;
 
                     case 2:
                         updatedStudent.setDob(
                                 InputValidator.inputDate(sc, "Nhập ngày sinh mới (dd/MM/yyyy): ")
                         );
-                        System.out.println("✅ Ghi nhận thay đổi");
+                        System.out.println("✅ Ghi nhận thay đổi.");
                         break;
 
                     case 3:
                         updatedStudent.setEmail(
                                 InputValidator.inputEmail(sc, "Nhập email mới: ")
                         );
-                        System.out.println("✅ Ghi nhận thay đổi");
+                        System.out.println("✅ Ghi nhận thay đổi.");
                         break;
 
                     case 4:
@@ -113,7 +129,7 @@ public class StudentServiceImpl implements StudentService {
                                 "Chọn giới tính:\n1. Nam\n2. Nữ\nLựa chọn: ",
                                 2
                         );
-                        System.out.println("✅ Ghi nhận thay đổi");
+                        System.out.println("✅ Ghi nhận thay đổi.");
                         updatedStudent.setSex(sexChoice == 1);
                         break;
 
@@ -121,7 +137,7 @@ public class StudentServiceImpl implements StudentService {
                         updatedStudent.setPhone(
                                 InputValidator.inputPhone(sc, "Nhập số điện thoại mới: ")
                         );
-                        System.out.println("✅ Ghi nhận thay đổi");
+                        System.out.println("✅ Ghi nhận thay đổi.");
                         break;
 
                     case 6:
@@ -135,7 +151,15 @@ public class StudentServiceImpl implements StudentService {
                             }
                         }
 
-                        studentDAO.update(updatedStudent);
+                        UpdateStatusEnum result = studentDAO.update(updatedStudent);
+                        switch (result) {
+                            case SUCCESS:
+                                System.out.println("✅ Cập nhật sinh viên thành công!");
+                                break;
+                            case ERROR:
+                                System.out.println("❌ Lỗi! Không thể cập nhật dữ liệu sinh viên.");
+                                break;
+                        }
 
                         return;
 
@@ -155,11 +179,21 @@ public class StudentServiceImpl implements StudentService {
         if (student == null) {
             System.out.println("❌ Không tìm thấy sinh viên với id = " + id);
         } else {
+            System.out.println("✅ Tìm thấy sinh viên:");
+            printStudent(student);
+
             String confirm = InputValidator.inputString(sc, "Để xác nhận xoá hãy nhập y: ");
             if (!confirm.equalsIgnoreCase("y")) {
                 System.out.println("❌ Đã huỷ xoá.");
             } else {
-                studentDAO.delete(id);
+                DeleteStatusEnum result = studentDAO.delete(id);
+                switch (result) {
+                    case SUCCESS:
+                        System.out.println("✅ Xoá sinh viên thành công!");
+                        break;
+                    case ERROR:
+                        System.out.println("❌ Lỗi! Không thể xoá sinh viên.");
+                }
             }
         }
     }
@@ -179,7 +213,7 @@ public class StudentServiceImpl implements StudentService {
         List<Student> StudentList = studentDAO.sort(option);
 
         if (StudentList.isEmpty()) {
-            System.out.println("Danh sách hiện chưa có khoá học nào");
+            System.out.println("Danh sách hiện chưa có khoá học nào.");
         } else {
             System.out.println("Khoá học tìm được:");;
             printTable(StudentList);
@@ -204,7 +238,7 @@ public class StudentServiceImpl implements StudentService {
                 String name = InputValidator.inputString(sc, "Nhập tên sinh viên cần tìm: ");
                 studentList = studentDAO.filterStudent(1, name);
                 if (studentList.isEmpty()) {
-                    System.out.println("Không tìm thấy sinh viên nào");
+                    System.out.println("Không tìm thấy sinh viên nào.");
                 } else {
                     printTable(studentList);
                 }
@@ -213,7 +247,7 @@ public class StudentServiceImpl implements StudentService {
                 String email = InputValidator.inputEmail(sc, "Nhập email sinh viên cần tìm: ");
                 studentList = studentDAO.filterStudent(2, email);
                 if (studentList.isEmpty()) {
-                    System.out.println("Không tìm thấy sinh viên nào");
+                    System.out.println("Không tìm thấy sinh viên nào.");
                 } else {
                     printTable(studentList);
                 }
@@ -223,6 +257,9 @@ public class StudentServiceImpl implements StudentService {
                 Student student = studentDAO.findById(id);
                 if (student == null) {
                     System.out.println("❌ Không tìm thấy sinh viên với id = " + id);
+                } else {
+                    System.out.println("✅ Tìm thấy sinh viên:");
+                    printStudent(student);
                 }
                 break;
         }
@@ -238,6 +275,17 @@ public class StudentServiceImpl implements StudentService {
         for (Student s : studentList) {
             s.displayData();
         }
+
+        System.out.println("--------------------------------------------------------------------------------------------------------------------");
+    }
+
+    private static void printStudent(Student student) {
+        System.out.println("--------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-20s | %-12s | %-25s | %-6s | %-15s | %-12s |\n",
+                "ID", "NAME", "DOB", "EMAIL", "SEX", "PHONE", "CREATED");
+        System.out.println("--------------------------------------------------------------------------------------------------------------------");
+
+        student.displayData();
 
         System.out.println("--------------------------------------------------------------------------------------------------------------------");
     }
