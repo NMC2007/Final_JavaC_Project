@@ -67,6 +67,5 @@ public class Enrollment implements IBaseEnrollment {
         this.studentId = studentId;
         this.courseId = courseId;
         this.registeredAt = LocalDateTime.now();
-
     }
 }

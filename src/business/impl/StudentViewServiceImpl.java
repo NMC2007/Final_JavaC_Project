@@ -1,6 +1,8 @@
 package business.impl;
 
 import business.StudentViewService;
+import business.TableView.CourseTableView;
+import business.TableView.EnrollmentTableView;
 import dao.impl.CourseManagerDAOImpl;
 import dao.impl.StudentViewDAOImpl;
 import enums.DeleteStatusEnum;
@@ -26,7 +28,7 @@ public class StudentViewServiceImpl implements StudentViewService {
             System.out.println("\nDanh sách hiện chưa có khoá học nào.");
         } else {
             System.out.println("\nDanh sách các khoá học:");
-            printTableCourse(courseList);
+            CourseTableView.printListCourses(courseList);
         }
     }
 
@@ -37,7 +39,7 @@ public class StudentViewServiceImpl implements StudentViewService {
             System.out.println("\nBạn chưa đăng ký khoá học nào.");
         } else {
             System.out.println("\nCác khoá học đã đăng ký:");
-            printTableEnrollment(enrollmentList);
+            EnrollmentTableView.printListEnrollment(enrollmentList);
         }
     }
 
@@ -50,7 +52,7 @@ public class StudentViewServiceImpl implements StudentViewService {
             System.out.println("❌ Không tìm thấy khoá học với id = " + idCourse);
         } else {
             System.out.println("✅ Tìm thấy khóa học:");
-            printCourse(course);
+            CourseTableView.printCourse(course);
 
             Enrollment newEnrollment = new Enrollment();
 
@@ -66,27 +68,35 @@ public class StudentViewServiceImpl implements StudentViewService {
                     break;
             }
         }
-
     }
 
     @Override
     public void deleteEnrollment(Scanner sc, int idStudent) {
-        int idCourse = InputValidator.inputInt(sc, "Nhập id khoá học muốn xoá: ");
 
-        DeleteStatusEnum result = studentViewDAO.deleteEnrollment(idStudent, idCourse);
-        switch (result) {
-            case SUCCESS:
-                System.out.println("✅ Huỷ đăng ký khóa học thành công!");
-                break;
-            case DOSE_NOT_EXIST:
-                System.out.println("❌ Bạn chưa đăng ký khóa học này.");
-                break;
-            case UNAUTHORIZED:
-                System.out.println("❌ Khóa học không thể huỷ.\n(Chỉ huỷ được khi còn trong trạng thái chờ)");
-                break;
-            case ERROR:
-                System.out.println("❌ Lỗi! Không thể huỷ khoá học.");
-                break;
+        List<EnrollmentView> enrollmentList = studentViewDAO.showListEnrollments(idStudent);
+        if (enrollmentList.isEmpty()) {
+            System.out.println("\nBạn chưa đăng ký khoá học nào.");
+        } else {
+            System.out.println("\nCác khoá học đã đăng ký:");
+            EnrollmentTableView.printListEnrollment(enrollmentList);
+
+            int idCourse = InputValidator.inputInt(sc, "Nhập id khoá học muốn huỷ: ");
+
+            DeleteStatusEnum result = studentViewDAO.deleteEnrollment(idStudent, idCourse);
+            switch (result) {
+                case SUCCESS:
+                    System.out.println("✅ Huỷ đăng ký khóa học thành công!");
+                    break;
+                case DOSE_NOT_EXIST:
+                    System.out.println("❌ Bạn chưa đăng ký khóa học này.");
+                    break;
+                case UNAUTHORIZED:
+                    System.out.println("❌ Khóa học không thể huỷ.\n(Chỉ huỷ được khi còn trong trạng thái chờ)");
+                    break;
+                case ERROR:
+                    System.out.println("❌ Lỗi! Không thể huỷ khoá học.");
+                    break;
+            }
         }
     }
 
@@ -126,36 +136,5 @@ public class StudentViewServiceImpl implements StudentViewService {
                 System.out.println("❌ Lỗi! Không thể thay đổi mật khẩu.");
                 break;
         }
-    }
-
-
-    private static void printTableEnrollment(List<EnrollmentView> enrollmentList) {
-        System.out.println("------------------------------------------------------------------------");
-        System.out.printf("| %-25s | %-35s | %-10s |\n", "Course Name", "Registered At", "Status");
-        System.out.println("------------------------------------------------------------------------");
-        for (EnrollmentView enrollment : enrollmentList) {
-            enrollment.display();
-        }
-        System.out.println("------------------------------------------------------------------------");
-    }
-
-    private static void printTableCourse(List<Course> courseList) {
-        System.out.println("----------------------------------------------------------------------------------------");
-        System.out.printf("| %-5s | %-25s | %-10s | %-20s | %-12s |\n",
-                "ID", "NAME", "DURATION", "INSTRUCTOR", "CREATED");
-        System.out.println("----------------------------------------------------------------------------------------");
-        for (Course c : courseList) {
-            c.displayData();
-        }
-        System.out.println("----------------------------------------------------------------------------------------");
-    }
-
-    private static void printCourse(Course course) {
-        System.out.println("----------------------------------------------------------------------------------------");
-        System.out.printf("| %-5s | %-25s | %-10s | %-20s | %-12s |\n",
-                "ID", "NAME", "DURATION", "INSTRUCTOR", "CREATED");
-        System.out.println("----------------------------------------------------------------------------------------");
-        course.displayData();
-        System.out.println("----------------------------------------------------------------------------------------");
     }
 }

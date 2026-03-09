@@ -33,7 +33,7 @@ public class AdminManagerMenu {
 
                 case 3:
                     // menu quản lý đăng ký khóa học
-                    // EnrollmentManagerMenu.showMenu(sc);
+                     EnrollmentManagerMenu.showMenu(sc);
                     break;
 
                 case 4:

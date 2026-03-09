@@ -1,6 +1,7 @@
 package business.impl;
 
 import business.StudentService;
+import business.TableView.StudentTableView;
 import dao.impl.StudentManagerDAOImpl;
 import enums.DeleteStatusEnum;
 import enums.InsertStatusEnum;
@@ -20,7 +21,7 @@ public class StudentServiceImpl implements StudentService {
         if (studentList.isEmpty()) {
             System.out.println("Danh sách hiện chưa có sinh viên nào.");
         } else {
-            printTable(studentList);
+            StudentTableView.printListStudents(studentList);
         }
     }
 
@@ -71,7 +72,7 @@ public class StudentServiceImpl implements StudentService {
             System.out.println("❌ Không tìm thấy sinh viên với id = " + id);
         } else {
             System.out.println("✅ Tìm thấy sinh viên:");
-            printStudent(student);
+            StudentTableView.printStudent(student);
 
             Student updatedStudent = new Student();
 
@@ -180,7 +181,7 @@ public class StudentServiceImpl implements StudentService {
             System.out.println("❌ Không tìm thấy sinh viên với id = " + id);
         } else {
             System.out.println("✅ Tìm thấy sinh viên:");
-            printStudent(student);
+            StudentTableView.printStudent(student);
 
             String confirm = InputValidator.inputString(sc, "Để xác nhận xoá hãy nhập y: ");
             if (!confirm.equalsIgnoreCase("y")) {
@@ -213,10 +214,10 @@ public class StudentServiceImpl implements StudentService {
         List<Student> StudentList = studentDAO.sort(option);
 
         if (StudentList.isEmpty()) {
-            System.out.println("Danh sách hiện chưa có khoá học nào.");
+            System.out.println("Danh sách hiện chưa có sinh viên nào.");
         } else {
-            System.out.println("Khoá học tìm được:");;
-            printTable(StudentList);
+            System.out.println("Danh sách sinh viên sau khi sắp xếp:");;
+            StudentTableView.printListStudents(StudentList);
         }
     }
 
@@ -231,7 +232,7 @@ public class StudentServiceImpl implements StudentService {
 
         int option = InputValidator.inputMenu(sc, "Nhập lựa chọn: ", 3);
 
-        List<Student> studentList = studentDAO.findAll();
+        List<Student> studentList;
 
         switch (option) {
             case 1:
@@ -240,7 +241,8 @@ public class StudentServiceImpl implements StudentService {
                 if (studentList.isEmpty()) {
                     System.out.println("Không tìm thấy sinh viên nào.");
                 } else {
-                    printTable(studentList);
+                    System.out.println("✅ Tìm thấy sinh viên:");
+                    StudentTableView.printListStudents(studentList);
                 }
                 break;
             case 2:
@@ -249,7 +251,8 @@ public class StudentServiceImpl implements StudentService {
                 if (studentList.isEmpty()) {
                     System.out.println("Không tìm thấy sinh viên nào.");
                 } else {
-                    printTable(studentList);
+                    System.out.println("✅ Tìm thấy sinh viên:");
+                    StudentTableView.printListStudents(studentList);
                 }
                 break;
             case 3:
@@ -259,34 +262,9 @@ public class StudentServiceImpl implements StudentService {
                     System.out.println("❌ Không tìm thấy sinh viên với id = " + id);
                 } else {
                     System.out.println("✅ Tìm thấy sinh viên:");
-                    printStudent(student);
+                    StudentTableView.printStudent(student);
                 }
                 break;
         }
-    }
-
-
-    private static void printTable(List<Student> studentList) {
-        System.out.println("--------------------------------------------------------------------------------------------------------------------");
-        System.out.printf("| %-5s | %-20s | %-12s | %-25s | %-6s | %-15s | %-12s |\n",
-                "ID", "NAME", "DOB", "EMAIL", "SEX", "PHONE", "CREATED");
-        System.out.println("--------------------------------------------------------------------------------------------------------------------");
-
-        for (Student s : studentList) {
-            s.displayData();
-        }
-
-        System.out.println("--------------------------------------------------------------------------------------------------------------------");
-    }
-
-    private static void printStudent(Student student) {
-        System.out.println("--------------------------------------------------------------------------------------------------------------------");
-        System.out.printf("| %-5s | %-20s | %-12s | %-25s | %-6s | %-15s | %-12s |\n",
-                "ID", "NAME", "DOB", "EMAIL", "SEX", "PHONE", "CREATED");
-        System.out.println("--------------------------------------------------------------------------------------------------------------------");
-
-        student.displayData();
-
-        System.out.println("--------------------------------------------------------------------------------------------------------------------");
     }
 }

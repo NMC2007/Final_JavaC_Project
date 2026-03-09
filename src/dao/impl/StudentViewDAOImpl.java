@@ -39,7 +39,7 @@ public class StudentViewDAOImpl implements IStudentViewDAO {
         try (
                 Connection conn = ConnectionDB.getConnection();
                 PreparedStatement pre = conn.prepareStatement("""
-                    SELECT c.name, e.registered_at, e.status
+                    SELECT c.id, c.name, e.registered_at, e.status
                     FROM final_javac_prj_sch.enrollment e
                     JOIN final_javac_prj_sch.course c ON e.course_id = c.id
                     WHERE e.student_id = ?
@@ -181,6 +181,7 @@ public class StudentViewDAOImpl implements IStudentViewDAO {
         List<EnrollmentView> enrollments = new ArrayList<>();
         while (rs.next()) {
             EnrollmentView view = new EnrollmentView(
+                    rs.getInt("id"),
                     rs.getString("name"),
                     rs.getTimestamp("registered_at").toLocalDateTime(),
                     rs.getString("status")

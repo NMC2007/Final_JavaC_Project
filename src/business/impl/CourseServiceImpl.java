@@ -1,6 +1,7 @@
 package business.impl;
 
 import business.CourseService;
+import business.TableView.CourseTableView;
 import dao.impl.CourseManagerDAOImpl;
 import enums.DeleteStatusEnum;
 import enums.InsertStatusEnum;
@@ -20,7 +21,7 @@ public class CourseServiceImpl implements CourseService {
         if (courseList.isEmpty()) {
             System.out.println("Danh sách hiện chưa có khoá học nào.");
         } else {
-            printTable(courseList);
+            CourseTableView.printListCourses(courseList);
         }
     }
 
@@ -51,7 +52,7 @@ public class CourseServiceImpl implements CourseService {
             System.out.println("❌ Không tìm thấy khóa học với id = " + id);
         } else {
             System.out.println("✅ Tìm thấy khóa học:");
-            printCourse(course);
+            CourseTableView.printCourse(course);
             while (true) {
 
                 System.out.println("\nChọn thông tin cần sửa:");
@@ -115,7 +116,7 @@ public class CourseServiceImpl implements CourseService {
             System.out.println("❌ Không tìm thấy khóa học với id = " + id);
         } else {
             System.out.println("✅ Tìm thấy khóa học:");
-            printCourse(course);
+            CourseTableView.printCourse(course);
 
             String confirm = InputValidator.inputString(sc, "Để xác nhận xoá hãy nhập y: ");
             if (!confirm.equalsIgnoreCase("y")) {
@@ -143,8 +144,8 @@ public class CourseServiceImpl implements CourseService {
         if (courseList.isEmpty()) {
             System.out.println("Không tìm thấy khoá học có tên " + name);
         } else {
-            System.out.println("Khoá học tìm được:");;
-            printTable(courseList);
+            System.out.println("✅ Tìm thấy khóa học:");
+            CourseTableView.printListCourses(courseList);
         }
     }
 
@@ -165,28 +166,8 @@ public class CourseServiceImpl implements CourseService {
         if (courseList.isEmpty()) {
             System.out.println("Danh sách hiện chưa có khoá học nào.");
         } else {
-            System.out.println("Khoá học tìm được:");;
-            printTable(courseList);
+            System.out.println("Danh sách khoá học sau khi sắp xếp:");
+            CourseTableView.printListCourses(courseList);
         }
-    }
-
-    private static void printTable(List<Course> courseList) {
-        System.out.println("----------------------------------------------------------------------------------------");
-        System.out.printf("| %-5s | %-25s | %-10s | %-20s | %-12s |\n",
-                "ID", "NAME", "DURATION", "INSTRUCTOR", "CREATED");
-        System.out.println("----------------------------------------------------------------------------------------");
-        for (Course c : courseList) {
-            c.displayData();
-        }
-        System.out.println("----------------------------------------------------------------------------------------");
-    }
-
-    private static void printCourse(Course course) {
-        System.out.println("----------------------------------------------------------------------------------------");
-        System.out.printf("| %-5s | %-25s | %-10s | %-20s | %-12s |\n",
-                "ID", "NAME", "DURATION", "INSTRUCTOR", "CREATED");
-        System.out.println("----------------------------------------------------------------------------------------");
-        course.displayData();
-        System.out.println("----------------------------------------------------------------------------------------");
     }
 }
