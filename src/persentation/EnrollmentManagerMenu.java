@@ -12,9 +12,9 @@ public class EnrollmentManagerMenu {
     public static void showMenu(Scanner sc) {
         while (true) {
             System.out.println("\n\n===== STUDENT COURSE MENU =====");
-            System.out.println("1. Hiển thị học viên theo từng khóa học");
-            System.out.println("2. Thêm học viên vào khóa học");
-            System.out.println("3. Xóa học viên khỏi khóa học");
+            System.out.println("1. Hiển thị và sét duyệt sinh viên");
+            System.out.println("2. Thêm sinh viên vào khóa học");
+            System.out.println("3. Xóa sinh viên khỏi khóa học");
             System.out.println("4. Quay về menu chính");
 
             int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn: ", 4);

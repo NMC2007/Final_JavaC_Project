@@ -39,29 +39,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             if (listStudentStatus.isEmpty()) {
                 System.out.println("Chưa có học sinh đăng ký hoá học này.");
             } else {
-                System.out.println("Danh sách học sinh đăng ký khoá học này:");
-                StudentStatusTableView.printListStudentStatus(listStudentStatus);
-
                 boolean hasWaiting = listStudentStatus.stream()
                         .anyMatch(s -> s.getStatus().equalsIgnoreCase("WAITING"));
 
                 if (hasWaiting) {
-                    while (true) {
-                        System.out.println(
-                                """
-                                1. Xét duyệt đơn đăng ký môn học
-                                2. Thoát
-                                """);
-                        int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn: ", 2);
-                        switch (choice)
-                        {
-                            case 1:
-                                updateStatus(sc, listStudentStatus, idCourse);
-                                break;
-                            case 2:
-                                return;
-                        }
-                    }
+                    updateStatus(sc, listStudentStatus, idCourse);
                 } else {
                     System.out.println("Tất cả sinh viên đã được xử lý.");
                 }
@@ -70,53 +52,77 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     }
 
     private void updateStatus(Scanner sc, List<StudentStatus> listStudentStatus, int idCourse) {
-        int studentId = InputValidator.inputInt(sc, "Nhập ID sinh viên cần duyệt: ");
 
-        StudentStatus target = null;
+        while (true) {
 
-        for (StudentStatus s : listStudentStatus) {
-            if (s.getId() == studentId) {
-                target = s;
-                break;
+            boolean hasWaiting = listStudentStatus.stream()
+                    .anyMatch(s -> s.getStatus().equalsIgnoreCase("WAITING"));
+
+            if (!hasWaiting) {
+                System.out.println("✅ Không còn sinh viên đang chờ duyệt.");
+                return;
             }
-        }
 
-        if (target == null) {
-            System.out.println("❌ Sinh viên không đăng ký khóa học này.");
+            System.out.println("Danh sách học sinh đăng ký khoá học này:");
+            StudentStatusTableView.printListStudentStatus(listStudentStatus);
 
-        } else {
-            System.out.println("Sinh viên:");
-            StudentStatusTableView.printStudentStatus(target);
+            System.out.println("""
+                1. Duyệt sinh viên
+                2. Thoát
+                """);
+
+            int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn: ", 2);
+
+            if (choice == 2) {
+                return;
+            }
+
+            int studentId = InputValidator.inputInt(sc, "Nhập ID sinh viên cần duyệt: ");
+
+            StudentStatus target = null;
+
+            for (StudentStatus s : listStudentStatus) {
+                if (s.getId() == studentId) {
+                    target = s;
+                    break;
+                }
+            }
+
+            if (target == null) {
+                System.out.println("❌ Sinh viên không đăng ký khóa học này.");
+                continue;
+            }
 
             if (!target.getStatus().equalsIgnoreCase("WAITING")) {
-                System.out.println("Sinh viên này đã được xử lý.");
+                System.out.println("⚠️ Sinh viên này đã được xử lý.");
+                continue;
             }
 
             System.out.println("""
-                                1. Duyệt (CONFIRM)
-                                2. Từ chối (CANCEL)
-                            """);
+                1. Duyệt (CONFIRM)
+                2. Từ chối (CANCEL)
+                """);
+
             int action = InputValidator.inputMenu(sc, "Nhập lựa chọn: ", 2);
 
             UpdateStatusEnum result;
-            switch (action) {
-                case 1:
-                    result = enrollmentDAO.updateStatusStudent(studentId, idCourse, "CONFIRM");
-                    if (result == UpdateStatusEnum.SUCCESS) {
-                        System.out.println("✅ Thao tác thành công\n - Đã duyệt sinh viên.\n\n");
-                    } else {
-                        System.out.println("❌ Lỗi! Không thể duyệt sinh viên.");
-                    }
-                    break;
 
-                case 2:
-                    result = enrollmentDAO.updateStatusStudent(studentId, idCourse, "CANCEL");
-                    if (result == UpdateStatusEnum.SUCCESS) {
-                        System.out.println("✅ Thao tác thành công\n - Đã từ chối sinh viên.\n\n");
-                    } else {
-                        System.out.println("❌ Lỗi! Không thể từ chối sinh viên.");
-                    }
-                    break;
+            if (action == 1) {
+                result = enrollmentDAO.updateStatusStudent(studentId, idCourse, "CONFIRM");
+                if (result == UpdateStatusEnum.SUCCESS) {
+                    System.out.println("✅ Đã duyệt sinh viên.");
+                    target.setStatus("CONFIRM");
+                } else {
+                    System.out.println("❌ Lỗi! Không thể duyệt sinh viên.");
+                }
+            } else {
+                result = enrollmentDAO.updateStatusStudent(studentId, idCourse, "CANCEL");
+                if (result == UpdateStatusEnum.SUCCESS) {
+                    System.out.println("✅ Đã từ chối sinh viên.");
+                    target.setStatus("CANCEL");
+                } else {
+                    System.out.println("❌ Lỗi! Không thể từ chối sinh viên.");
+                }
             }
         }
     }
