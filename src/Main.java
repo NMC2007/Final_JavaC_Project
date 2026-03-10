@@ -1,7 +1,4 @@
-import persentation.AdminManagerMenu;
-import persentation.CourseManagerMenu;
-import persentation.LoginMenu;
-import persentation.StudentManagerMenu;
+import persentation.*;
 
 import java.util.Scanner;
 
@@ -17,6 +14,7 @@ public class Main {
 //        CourseManagerMenu.showMenu(sc);
 //        StudentManagerMenu.showMenu(sc);
 //        AdminManagerMenu.showMenu(sc);
+//        EnrollmentManagerMenu.showMenu(sc);
         LoginMenu.showMenu(sc);
     }
 }

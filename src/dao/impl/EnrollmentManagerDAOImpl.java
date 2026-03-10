@@ -3,27 +3,35 @@ package dao.impl;
 import dao.EnrollmentManagerDAO;
 import enums.DeleteStatusEnum;
 import enums.InsertStatusEnum;
+import enums.UpdateStatusEnum;
 import model.Enrollment;
-import model.Student;
+import model.StudentStatus;
 import utils.ConnectionDB;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EnrollmentManagerDAOImpl implements EnrollmentManagerDAO {
     @Override
-    public List<Student> getStudentsBelongToCourse(int courseId) {
+    public List<StudentStatus> getStudentsBelongToCourse(int courseId) {
 
         try (
                 Connection conn = ConnectionDB.getConnection();
                 PreparedStatement pre = conn.prepareStatement(
                         """
-                            SELECT s.*
-                            FROM final_javac_prj_sch.student s
-                            JOIN final_javac_prj_sch.enrollment e
-                            ON s.id = e.student_id
-                            WHERE e.course_id = ?
+                                SELECT
+                                s.id,
+                                s.name,
+                                s.email,
+                                s.sex,
+                                e.registered_at AS registeredAt,
+                                e.status AS status
+                                FROM final_javac_prj_sch.student s
+                                JOIN final_javac_prj_sch.enrollment e
+                                ON s.id = e.student_id
+                                WHERE e.course_id = ?
                             """
                 );
         ) {
@@ -105,28 +113,55 @@ public class EnrollmentManagerDAOImpl implements EnrollmentManagerDAO {
         return DeleteStatusEnum.ERROR;
     }
 
-    private List<Student> addList(ResultSet rs) throws SQLException {
-        List<Student> studentList = new ArrayList<>();
+    @Override
+    public UpdateStatusEnum updateStatusStudent(int idStudent, int idCourse, String status) {
+        try (
+                Connection conn = ConnectionDB.getConnection();
+                PreparedStatement pre = conn.prepareStatement(
+                        """
+                        UPDATE final_javac_prj_sch.enrollment
+                        SET status = ?
+                        WHERE student_id = ? AND course_id = ?
+                        """
+                );
+        ) {
 
-        while (rs.next()) {
-            Student student = new Student();
-            student.setId(rs.getInt("id"));
-            student.setName(rs.getString("name"));
+            pre.setString(1, status);
+            pre.setInt(2, idStudent);
+            pre.setInt(3, idCourse);
 
-            Date dob = rs.getDate("dob");
-            student.setDob(dob.toLocalDate());
+            int rowsAffected = pre.executeUpdate();
 
-            student.setEmail(rs.getString("email"));
-            student.setSex(rs.getBoolean("sex"));
-            student.setPhone(rs.getString("phone"));
-            student.setPassword(rs.getString("password"));
+            if (rowsAffected > 0) {
+                return UpdateStatusEnum.SUCCESS;
+            }
 
-            Date created = rs.getDate("created_at");
-            student.setCreatedAt(created.toLocalDate());
-
-            studentList.add(student);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        return studentList;
+        return UpdateStatusEnum.ERROR;
+    }
+
+    private List<StudentStatus> addList(ResultSet rs) throws SQLException {
+        List<StudentStatus> studentStatusList = new ArrayList<>();
+
+        while (rs.next()) {
+
+            int id = rs.getInt("id");
+            String name = rs.getString("name");
+            String email = rs.getString("email");
+            boolean sex = rs.getBoolean("sex");
+
+            LocalDate registeredAt = rs.getDate("registeredAt").toLocalDate();
+            String status = rs.getString("status");
+
+            StudentStatus studentStatus =
+                    new StudentStatus(id, name, email, sex, registeredAt, status);
+
+            studentStatusList.add(studentStatus);
+        }
+
+        return studentStatusList;
     }
 }

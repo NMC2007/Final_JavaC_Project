@@ -2,15 +2,18 @@ package business.impl;
 
 import business.EnrollmentService;
 import business.TableView.CourseTableView;
+import business.TableView.StudentStatusTableView;
 import business.TableView.StudentTableView;
 import dao.impl.CourseManagerDAOImpl;
 import dao.impl.EnrollmentManagerDAOImpl;
 import dao.impl.StudentManagerDAOImpl;
 import enums.DeleteStatusEnum;
 import enums.InsertStatusEnum;
+import enums.UpdateStatusEnum;
 import model.Course;
 import model.Enrollment;
 import model.Student;
+import model.StudentStatus;
 import validation.InputValidator;
 
 import java.util.List;
@@ -32,15 +35,93 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             System.out.println("✅ Tìm thấy khóa học:");
             CourseTableView.printCourse(course);
 
-            List<Student> listStudent = enrollmentDAO.getStudentsBelongToCourse(idCourse);
-            if (listStudent.isEmpty()) {
+            List<StudentStatus> listStudentStatus = enrollmentDAO.getStudentsBelongToCourse(idCourse);
+            if (listStudentStatus.isEmpty()) {
                 System.out.println("Chưa có học sinh đăng ký hoá học này.");
             } else {
                 System.out.println("Danh sách học sinh đăng ký khoá học này:");
-                StudentTableView.printListStudents(listStudent);
+                StudentStatusTableView.printListStudentStatus(listStudentStatus);
+
+                boolean hasWaiting = listStudentStatus.stream()
+                        .anyMatch(s -> s.getStatus().equalsIgnoreCase("WAITING"));
+
+                if (hasWaiting) {
+                    while (true) {
+                        System.out.println(
+                                """
+                                1. Xét duyệt đơn đăng ký môn học
+                                2. Thoát
+                                """);
+                        int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn: ", 2);
+                        switch (choice)
+                        {
+                            case 1:
+                                updateStatus(sc, listStudentStatus, idCourse);
+                                break;
+                            case 2:
+                                return;
+                        }
+                    }
+                } else {
+                    System.out.println("Tất cả sinh viên đã được xử lý.");
+                }
             }
         }
     }
+
+    private void updateStatus(Scanner sc, List<StudentStatus> listStudentStatus, int idCourse) {
+        int studentId = InputValidator.inputInt(sc, "Nhập ID sinh viên cần duyệt: ");
+
+        StudentStatus target = null;
+
+        for (StudentStatus s : listStudentStatus) {
+            if (s.getId() == studentId) {
+                target = s;
+                break;
+            }
+        }
+
+        if (target == null) {
+            System.out.println("❌ Sinh viên không đăng ký khóa học này.");
+
+        } else {
+            System.out.println("Sinh viên:");
+            StudentStatusTableView.printStudentStatus(target);
+
+            if (!target.getStatus().equalsIgnoreCase("WAITING")) {
+                System.out.println("Sinh viên này đã được xử lý.");
+            }
+
+            System.out.println("""
+                                1. Duyệt (CONFIRM)
+                                2. Từ chối (CANCEL)
+                            """);
+            int action = InputValidator.inputMenu(sc, "Nhập lựa chọn: ", 2);
+
+            UpdateStatusEnum result;
+            switch (action) {
+                case 1:
+                    result = enrollmentDAO.updateStatusStudent(studentId, idCourse, "CONFIRM");
+                    if (result == UpdateStatusEnum.SUCCESS) {
+                        System.out.println("✅ Thao tác thành công\n - Đã duyệt sinh viên.\n\n");
+                    } else {
+                        System.out.println("❌ Lỗi! Không thể duyệt sinh viên.");
+                    }
+                    break;
+
+                case 2:
+                    result = enrollmentDAO.updateStatusStudent(studentId, idCourse, "CANCEL");
+                    if (result == UpdateStatusEnum.SUCCESS) {
+                        System.out.println("✅ Thao tác thành công\n - Đã từ chối sinh viên.\n\n");
+                    } else {
+                        System.out.println("❌ Lỗi! Không thể từ chối sinh viên.");
+                    }
+                    break;
+            }
+        }
+    }
+
+
 
     @Override
     public void addStudentToTheCourse(Scanner sc) {
