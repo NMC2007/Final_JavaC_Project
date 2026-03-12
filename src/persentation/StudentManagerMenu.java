@@ -23,34 +23,26 @@ public class StudentManagerMenu {
             int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn của bạn: ", 7);
 
             switch (choice) {
-
                 case 1:
                     showStudent();
                     break;
-
                 case 2:
                     createStudent(sc);
                     break;
-
                 case 3:
                     updateStudent(sc);
                     break;
-
                 case 4:
                     deleteStudent(sc);
                     break;
-
                 case 5:
                     searchStudent(sc);
                     break;
-
                 case 6:
                     sortStudent(sc);
                     break;
-
                 case 7:
                     return;
-
                 default:
                     System.out.println("Lựa chọn không hợp lệ!");
             }

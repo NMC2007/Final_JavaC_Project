@@ -20,15 +20,12 @@ public class LoginMenu {
             int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn: ", 3);
 
             switch (choice) {
-
                 case 1:
                     loginAdmin(sc);
                     break;
-
                 case 2:
                     loginStudent(sc);
                     break;
-
                 case 3:
                     System.exit(0);
             }

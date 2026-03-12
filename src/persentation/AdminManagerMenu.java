@@ -20,31 +20,25 @@ public class AdminManagerMenu {
             int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn: ", 5);
 
             switch (choice) {
-
                 case 1:
                     // mở menu quản lý khóa học
                     CourseManagerMenu.showMenu(sc);
                     break;
-
                 case 2:
                     // mở menu quản lý học viên
                     StudentManagerMenu.showMenu(sc);
                     break;
-
                 case 3:
                     // menu quản lý đăng ký khóa học
                      EnrollmentManagerMenu.showMenu(sc);
                     break;
-
                 case 4:
                     // thống kê học viên theo khóa học
                     // StatisticsMenu.showMenu(sc);
                     break;
-
                 case 5:
                     System.out.println("Đăng xuất thành công!");
                     return;
-
                 default:
                     System.out.println("Lựa chọn không hợp lệ!");
             }

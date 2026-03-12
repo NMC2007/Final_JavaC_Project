@@ -1,4 +1,4 @@
-package business.TableView;
+package utils.tableView;
 
 import model.EnrollmentView;
 

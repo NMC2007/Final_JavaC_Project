@@ -1,7 +1,7 @@
 package business.impl;
 
 import business.StudentService;
-import business.TableView.StudentTableView;
+import utils.tableView.StudentTableView;
 import dao.impl.StudentManagerDAOImpl;
 import enums.DeleteStatusEnum;
 import enums.InsertStatusEnum;

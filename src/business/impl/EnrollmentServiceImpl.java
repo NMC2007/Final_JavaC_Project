@@ -1,9 +1,9 @@
 package business.impl;
 
 import business.EnrollmentService;
-import business.TableView.CourseTableView;
-import business.TableView.StudentStatusTableView;
-import business.TableView.StudentTableView;
+import utils.tableView.CourseTableView;
+import utils.tableView.StudentStatusTableView;
+import utils.tableView.StudentTableView;
 import dao.impl.CourseManagerDAOImpl;
 import dao.impl.EnrollmentManagerDAOImpl;
 import dao.impl.StudentManagerDAOImpl;

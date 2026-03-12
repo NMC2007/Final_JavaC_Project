@@ -1,7 +1,7 @@
 package business.impl;
 
 import business.CourseService;
-import business.TableView.CourseTableView;
+import utils.tableView.CourseTableView;
 import dao.impl.CourseManagerDAOImpl;
 import enums.DeleteStatusEnum;
 import enums.InsertStatusEnum;
@@ -38,7 +38,7 @@ public class CourseServiceImpl implements CourseService {
                 System.out.println("✅ Thêm khoá học thành công!");
                 break;
             case ERROR:
-                System.out.println("❌  Lỗi! Không thể thêm khóa học.");
+                System.out.println("❌ Lỗi! Không thể thêm khóa học.");
                 break;
         }
     }
@@ -65,28 +65,24 @@ public class CourseServiceImpl implements CourseService {
                 int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn: ", 5);
 
                 switch (choice) {
-
                     case 1:
                         course.setName(
                                 InputValidator.inputString(sc, "Nhập tên khóa học mới: ")
                         );
                         System.out.println("✅ Ghi nhận thay đổi.");
                         break;
-
                     case 2:
                         course.setDuration(
                                 InputValidator.inputInt(sc, "Nhập thời lượng mới: ")
                         );
                         System.out.println("✅ Ghi nhận thay đổi.");
                         break;
-
                     case 3:
                         course.setInstructor(
                                 InputValidator.inputString(sc, "Nhập tên giảng viên mới: ")
                         );
                         System.out.println("✅ Ghi nhận thay đổi.");
                         break;
-
                     case 4:
                         UpdateStatusEnum result = courseDAO.update(course);
                         switch (result) {
@@ -98,7 +94,6 @@ public class CourseServiceImpl implements CourseService {
                                 break;
                         }
                         return;
-
                     case 5:
                         System.out.println("❌ Hủy cập nhật.");
                         return;

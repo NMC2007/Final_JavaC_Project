@@ -37,9 +37,7 @@ public class StudentViewMenu {
                     updatePassword(sc, idStudent);
                     break;
                 case 6:
-
                     return;
-
                 default:
                     System.out.println("❌ Lựa chọn không hợp lệ!");
             }

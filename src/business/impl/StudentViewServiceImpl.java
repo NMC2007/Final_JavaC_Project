@@ -1,8 +1,8 @@
 package business.impl;
 
 import business.StudentViewService;
-import business.TableView.CourseTableView;
-import business.TableView.EnrollmentTableView;
+import utils.tableView.CourseTableView;
+import utils.tableView.EnrollmentTableView;
 import dao.impl.CourseManagerDAOImpl;
 import dao.impl.StudentViewDAOImpl;
 import enums.DeleteStatusEnum;
