@@ -1,10 +1,10 @@
 package model;
 
-import model.IBaseModel.IEnrollmentView;
+import model.IBaseModel.IDisplayData;
 
 import java.time.LocalDate;
 
-public class StudentStatus implements IEnrollmentView {
+public class StudentStatus implements IDisplayData {
     private int id;
     private String name;
     private String email;
@@ -42,7 +42,7 @@ public class StudentStatus implements IEnrollmentView {
 
 
     @Override
-    public void display() {
+    public void displayData() {
         System.out.printf("| %-4d | %-20s | %-25s | %-5s | %-12s | %-10s |\n",
                 id,
                 name,

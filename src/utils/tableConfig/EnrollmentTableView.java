@@ -1,4 +1,4 @@
-package utils.tableView;
+package utils.tableConfig;
 
 import model.EnrollmentView;
 
@@ -10,7 +10,7 @@ public class EnrollmentTableView {
         System.out.printf("| %-12s | %-25s | %-35s | %-10s |\n", "ID Course", "Course Name", "Registered At", "Status");
         System.out.println("----------------------------------------------------------------------------------------------");
         for (EnrollmentView enrollment : enrollmentList) {
-            enrollment.display();
+            enrollment.displayData();
         }
         System.out.println("----------------------------------------------------------------------------------------------");
     }

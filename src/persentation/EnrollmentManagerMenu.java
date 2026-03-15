@@ -1,6 +1,5 @@
 package persentation;
 
-import business.EnrollmentService;
 import business.impl.EnrollmentServiceImpl;
 import validation.InputValidator;
 
@@ -11,7 +10,7 @@ public class EnrollmentManagerMenu {
 
     public static void showMenu(Scanner sc) {
         while (true) {
-            System.out.println("\n\n===== STUDENT COURSE MENU =====");
+            System.out.println("\n\n===== MENU QUẢN LÝ ĐĂNG KÝ KHOÁ HỌC =====");
             System.out.println("1. Hiển thị và sét duyệt sinh viên");
             System.out.println("2. Thêm sinh viên vào khóa học");
             System.out.println("3. Xóa sinh viên khỏi khóa học");

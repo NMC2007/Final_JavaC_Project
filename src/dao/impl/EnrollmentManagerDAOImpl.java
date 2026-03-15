@@ -85,7 +85,6 @@ public class EnrollmentManagerDAOImpl implements EnrollmentManagerDAO {
             ResultSet rs = check.executeQuery();
 
             if (!rs.next()) {
-//                ❌ Bạn chưa đăng ký khóa học này.
                 return DeleteStatusEnum.DOSE_NOT_EXIST;
             }
 
@@ -101,7 +100,6 @@ public class EnrollmentManagerDAOImpl implements EnrollmentManagerDAO {
                 int rows = delete.executeUpdate();
 
                 if (rows > 0) {
-//                    ✅ Huỷ đăng ký khóa học thành công.
                     return DeleteStatusEnum.SUCCESS;
                 }
             }
@@ -109,7 +107,6 @@ public class EnrollmentManagerDAOImpl implements EnrollmentManagerDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//        ❌ Lỗi không huỷ được.
         return DeleteStatusEnum.ERROR;
     }
 

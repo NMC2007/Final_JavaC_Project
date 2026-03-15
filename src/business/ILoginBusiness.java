@@ -1,7 +1,5 @@
 package business;
 
-import java.util.Scanner;
-
-public interface ILoginBusiness {
-    int CheckLogin(Scanner sc);
+public interface ILoginBusiness<T> {
+    T CheckLogin(String username, String password);
 }

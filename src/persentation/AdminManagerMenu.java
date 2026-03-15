@@ -34,7 +34,7 @@ public class AdminManagerMenu {
                     break;
                 case 4:
                     // thống kê học viên theo khóa học
-                    // StatisticsMenu.showMenu(sc);
+                    StatisticalManagerMenu.showMenu(sc);
                     break;
                 case 5:
                     System.out.println("Đăng xuất thành công!");

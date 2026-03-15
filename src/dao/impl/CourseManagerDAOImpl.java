@@ -16,7 +16,6 @@ public class CourseManagerDAOImpl implements IDaoCRUD<Course>, ICourseManagerDAO
 
     @Override
     public InsertStatusEnum insert(Course course) {
-
         try (
                 Connection conn = ConnectionDB.getConnection();
                 PreparedStatement pre = conn.prepareStatement("INSERT INTO final_javac_prj_sch.course (name, duration, instructor) VALUES (?, ?, ?)");
@@ -40,7 +39,6 @@ public class CourseManagerDAOImpl implements IDaoCRUD<Course>, ICourseManagerDAO
 
     @Override
     public UpdateStatusEnum update(Course course) {
-
         try (
                 Connection conn = ConnectionDB.getConnection();
                 PreparedStatement ps = conn.prepareStatement("""

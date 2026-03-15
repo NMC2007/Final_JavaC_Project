@@ -1,4 +1,4 @@
-package utils.tableView;
+package utils.tableConfig;
 
 import model.Course;
 

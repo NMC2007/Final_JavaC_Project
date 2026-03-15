@@ -1,10 +1,12 @@
 package persentation;
 
+import business.impl.StatisticalServiceImpl;
 import validation.InputValidator;
 
 import java.util.Scanner;
 
 public class StatisticalManagerMenu {
+    private static final StatisticalServiceImpl statisticalService = new StatisticalServiceImpl();
     public static void showMenu(Scanner sc) {
         while (true) {
             System.out.println("\n===== MENU THỐNG KÊ =====");
@@ -18,22 +20,18 @@ public class StatisticalManagerMenu {
 
             switch (choice) {
                 case 1:
-
+                    TotalCoursesAndStudents();
                     break;
-
                 case 2:
-
+                    StudentCountByCourse();
                     break;
-
                 case 3:
-
+                    Top5CoursesByStudentCount();
                     break;
-
                 case 4:
-
+                    CoursesWithMoreThan10Students();
                     break;
                 case 5:
-
                     return;
 
                 default:
@@ -41,4 +39,18 @@ public class StatisticalManagerMenu {
             }
         }
     }
+
+    private static void TotalCoursesAndStudents() {
+        statisticalService.getTotalCoursesAndStudents();
+    }
+    private static void StudentCountByCourse() {
+        statisticalService.getStudentCountByCourse();
+    }
+    private static void Top5CoursesByStudentCount() {
+        statisticalService.getTop5CoursesByStudentCount();
+    }
+    private static void CoursesWithMoreThan10Students() {
+        statisticalService.getCoursesWithMoreThan10Students();
+    }
+
 }

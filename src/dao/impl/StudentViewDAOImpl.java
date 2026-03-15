@@ -92,14 +92,12 @@ public class StudentViewDAOImpl implements IStudentViewDAO {
             ResultSet rs = check.executeQuery();
 
             if (!rs.next()) {
-//                ❌ Bạn chưa đăng ký khóa học này.
                 return DeleteStatusEnum.DOSE_NOT_EXIST;
             }
 
             String status = rs.getString("status");
 
             if (!"WAITING".equalsIgnoreCase(status)) {
-//                ❌ Khóa học đã được duyệt, không thể huỷ.
                 return DeleteStatusEnum.UNAUTHORIZED;
             }
 
@@ -115,7 +113,6 @@ public class StudentViewDAOImpl implements IStudentViewDAO {
                 int rows = delete.executeUpdate();
 
                 if (rows > 0) {
-//                    ✅ Huỷ đăng ký khóa học thành công.
                     return DeleteStatusEnum.SUCCESS;
                 }
             }
@@ -123,7 +120,6 @@ public class StudentViewDAOImpl implements IStudentViewDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//        ❌ Lỗi không huỷ được.
         return DeleteStatusEnum.ERROR;
     }
 

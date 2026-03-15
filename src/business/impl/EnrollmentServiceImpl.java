@@ -1,9 +1,9 @@
 package business.impl;
 
 import business.EnrollmentService;
-import utils.tableView.CourseTableView;
-import utils.tableView.StudentStatusTableView;
-import utils.tableView.StudentTableView;
+import utils.tableConfig.CourseTableView;
+import utils.tableConfig.StudentStatusTableView;
+import utils.tableConfig.StudentTableView;
 import dao.impl.CourseManagerDAOImpl;
 import dao.impl.EnrollmentManagerDAOImpl;
 import dao.impl.StudentManagerDAOImpl;
@@ -39,14 +39,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             if (listStudentStatus.isEmpty()) {
                 System.out.println("Chưa có học sinh đăng ký hoá học này.");
             } else {
-                boolean hasWaiting = listStudentStatus.stream()
-                        .anyMatch(s -> s.getStatus().equalsIgnoreCase("WAITING"));
-
-                if (hasWaiting) {
-                    updateStatus(sc, listStudentStatus, idCourse);
-                } else {
-                    System.out.println("Tất cả sinh viên đã được xử lý.");
-                }
+                updateStatus(sc, listStudentStatus, idCourse);
             }
         }
     }
@@ -59,6 +52,8 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                     .anyMatch(s -> s.getStatus().equalsIgnoreCase("WAITING"));
 
             if (!hasWaiting) {
+                System.out.println("Danh sách học sinh đăng ký khoá học này:");
+                StudentStatusTableView.printListStudentStatus(listStudentStatus);
                 System.out.println("✅ Không còn sinh viên đang chờ duyệt.");
                 return;
             }

@@ -1,4 +1,4 @@
-package utils.tableView;
+package utils.tableConfig;
 
 import model.StudentStatus;
 
@@ -11,7 +11,7 @@ public class StudentStatusTableView {
                 "ID", "Name", "Email", "Sex", "Registered", "Status");
         System.out.println("------------------------------------------------------------------------------------------------");
         for (StudentStatus studentStatus : studentStatusList) {
-            studentStatus.display();
+            studentStatus.displayData();
         }
         System.out.println("------------------------------------------------------------------------------------------------");
     }
@@ -21,7 +21,7 @@ public class StudentStatusTableView {
         System.out.printf("| %-4s | %-20s | %-25s | %-5s | %-12s | %-10s |\n",
                 "ID", "Name", "Email", "Sex", "Registered", "Status");
         System.out.println("------------------------------------------------------------------------------------------------");
-        studentStatusList.display();
+        studentStatusList.displayData();
         System.out.println("------------------------------------------------------------------------------------------------");
     }
 }

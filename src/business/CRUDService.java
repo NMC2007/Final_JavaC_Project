@@ -2,10 +2,10 @@ package business;
 
 import java.util.Scanner;
 
-public interface CRUDService {
+public interface CRUDService<T> {
     void showData();
     void createData(Scanner sc);
-    void updateData(Scanner sc);
-    void deleteData(Scanner sc);
-    void sortData(Scanner sc);
+    void updateData(T t);
+    void deleteData(int id);
+    void sortData(int option);
 }

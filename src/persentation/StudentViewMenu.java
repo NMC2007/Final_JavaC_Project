@@ -9,7 +9,7 @@ public class StudentViewMenu {
     private static final StudentViewServiceImpl studentViewService = new StudentViewServiceImpl();
     public static void showMenu(Scanner sc, int idStudent) {
         while (true) {
-            System.out.println("\n\n======== MENU HỌC VIÊN ========");
+            System.out.println("\n\n======== MENU SINH VIÊN ========");
             System.out.println("1. Xem danh sách khóa học");
             System.out.println("2. Đăng ký khóa học");
             System.out.println("3. Xem khóa học đã đăng ký");

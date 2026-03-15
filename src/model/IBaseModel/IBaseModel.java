@@ -2,7 +2,6 @@ package model.IBaseModel;
 
 import java.util.Scanner;
 
-public interface IBaseModel {
+public interface IBaseModel extends IDisplayData {
     void inputData(Scanner sc);
-    void displayData();
 }

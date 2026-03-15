@@ -15,6 +15,7 @@ public class Main {
 //        StudentManagerMenu.showMenu(sc);
 //        AdminManagerMenu.showMenu(sc);
 //        EnrollmentManagerMenu.showMenu(sc);
+//        StatisticalManagerMenu.showMenu(sc);
         LoginMenu.showMenu(sc);
     }
 }
