@@ -63,6 +63,9 @@ public class StudentViewServiceImpl implements StudentViewService {
                 case SUCCESS:
                     System.out.println("✅ Đăng ký thành công!");
                     break;
+                case CANNOT:
+                    System.out.println("❌ Khoá học đã được đăng ký");
+                    break;
                 case ERROR:
                     System.out.println("❌ Đăng ký không thành công!");
                     break;

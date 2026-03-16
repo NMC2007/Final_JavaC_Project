@@ -62,6 +62,10 @@ public class StudentViewDAOImpl implements IStudentViewDAO {
                 Connection conn = ConnectionDB.getConnection();
                 PreparedStatement pre = conn.prepareStatement("INSERT INTO final_javac_prj_sch.enrollment (student_id, course_id) VALUES (?, ?)");
         ) {
+            // ktra xem đã đăng ký chưa nhận về true thì trùng và ko thể đky
+            if (isEnrollmentExist(enrollment.getStudentId(), enrollment.getCourseId())) {
+                return InsertStatusEnum.CANNOT;
+            }
 
             pre.setInt(1, enrollment.getStudentId());
             pre.setInt(2, enrollment.getCourseId());
@@ -75,6 +79,25 @@ public class StudentViewDAOImpl implements IStudentViewDAO {
             e.printStackTrace();
         }
         return InsertStatusEnum.ERROR;
+    }
+
+    private boolean isEnrollmentExist(int studentId, int courseId) {
+        try (
+                Connection conn = ConnectionDB.getConnection();
+                PreparedStatement pre = conn.prepareStatement("SELECT 1 FROM final_javac_prj_sch.enrollment WHERE student_id = ? AND course_id = ?");
+        ) {
+            pre.setInt(1, studentId);
+            pre.setInt(2, courseId);
+
+            ResultSet rs = pre.executeQuery();
+
+            return rs.next();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     @Override
