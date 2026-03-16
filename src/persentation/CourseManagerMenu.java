@@ -10,7 +10,6 @@ import java.util.Scanner;
 
 public class CourseManagerMenu {
     private static final CourseServiceImpl courseService = new CourseServiceImpl();
-    private static final CourseManagerDAOImpl courseDAO = new CourseManagerDAOImpl();
     public static void showMenu(Scanner sc) {
 
         while (true) {
@@ -66,7 +65,7 @@ public class CourseManagerMenu {
     private static void updateCourse(Scanner sc) {
         int id = InputValidator.inputInt(sc, "Nhập ID khoá học cần sửa: ");
 
-        Course course = courseDAO.findById(id);
+        Course course = courseService.findById(id);
 
         if (course == null) {
             System.out.println("❌ Không tìm thấy khóa học với id = " + id);
@@ -117,7 +116,7 @@ public class CourseManagerMenu {
     private static void deleteCourse(Scanner sc) {
         int id = InputValidator.inputInt(sc, "Nhập ID khoá học cần xoá: ");
 
-        Course course = courseDAO.findById(id);
+        Course course = courseService.findById(id);
         if (course == null) {
             System.out.println("❌ Không tìm thấy khóa học với id = " + id);
         } else {

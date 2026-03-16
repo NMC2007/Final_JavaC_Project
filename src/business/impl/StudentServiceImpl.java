@@ -27,6 +27,11 @@ public class StudentServiceImpl implements CRUDService<Student>, StudentService 
     }
 
     @Override
+    public Student findById(int id) {
+        return studentDAO.findById(id);
+    }
+
+    @Override
     public void createData(Scanner sc) {
         Student student = new Student();
 
@@ -123,5 +128,10 @@ public class StudentServiceImpl implements CRUDService<Student>, StudentService 
             System.out.println("✅ Tìm thấy sinh viên:");
             StudentTableView.printStudent(student);
         }
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return studentDAO.existsByEmail(email);
     }
 }

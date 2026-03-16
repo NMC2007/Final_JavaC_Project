@@ -10,7 +10,6 @@ import java.util.Scanner;
 
 public class StudentManagerMenu {
     private static final StudentServiceImpl studentService = new StudentServiceImpl();
-    private static final StudentManagerDAOImpl studentDAO = new StudentManagerDAOImpl();
     public static void showMenu(Scanner sc) {
 
         while (true) {
@@ -66,7 +65,7 @@ public class StudentManagerMenu {
     // update
     private static void updateStudent(Scanner sc) {
         int id = InputValidator.inputInt(sc, "Nhập ID sinh viên cần sửa: ");
-        Student student = studentDAO.findById(id);
+        Student student = studentService.findById(id);
 
         if (student == null) {
             System.out.println("❌ Không tìm thấy sinh viên với id = " + id);
@@ -143,7 +142,7 @@ public class StudentManagerMenu {
                     case 6:
                         // kiểm tra email nếu có thay đổi
                         if (!updatedStudent.getEmail().equals(student.getEmail())) {
-                            if (studentDAO.existsByEmail(updatedStudent.getEmail())) {
+                            if (studentService.existsByEmail(updatedStudent.getEmail())) {
                                 System.out.println("❌ Email đã tồn tại! Không thể lưu thay đổi.");
                                 return;
                             }
@@ -163,7 +162,7 @@ public class StudentManagerMenu {
     private static void deleteStudent(Scanner sc) {
         int id = InputValidator.inputInt(sc, "Nhập ID sinh viên cần xoá: ");
 
-        Student student = studentDAO.findById(id);
+        Student student = studentService.findById(id);
         if (student == null) {
             System.out.println("❌ Không tìm thấy sinh viên với id = " + id);
         } else {
