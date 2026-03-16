@@ -14,14 +14,16 @@ public class StudentManagerMenu {
 
         while (true) {
 
-            System.out.println("\n===== MENU QUẢN LÝ SINH VIÊN =====");
-            System.out.println("1. Hiển thị danh sách sinh viên");
-            System.out.println("2. Thêm mới sinh viên");
-            System.out.println("3. Chỉnh sửa thông tin sinh viên");
-            System.out.println("4. Xóa sinh viên");
-            System.out.println("5. Tìm kiếm theo tên / email / id");
-            System.out.println("6. Sắp xếp danh sách sinh viên");
-            System.out.println("7. Quay về menu chính");
+            System.out.println("""
+                    \n\n============================= MENU QUẢN LÝ SINH VIÊN =============================
+                    1. Hiển thị danh sách sinh viên
+                    2. Thêm mới sinh viên
+                    3. Chỉnh sửa thông tin sinh viên
+                    4. Xóa sinh viên
+                    5. Tìm kiếm theo tên / email / id
+                    6. Sắp xếp danh sách sinh viên
+                    7. Quay về menu chính
+                    """);
 
             int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn của bạn: ", 7);
 
@@ -64,7 +66,7 @@ public class StudentManagerMenu {
 
     // update
     private static void updateStudent(Scanner sc) {
-        int id = InputValidator.inputInt(sc, "Nhập ID sinh viên cần sửa: ");
+        int id = InputValidator.inputInt(sc, "\nNhập ID sinh viên cần sửa: ");
         Student student = studentService.findById(id);
 
         if (student == null) {
@@ -84,20 +86,18 @@ public class StudentManagerMenu {
             updatedStudent.setPassword(student.getPassword());
 
             while (true) {
+                System.out.println("""
+                        \n============================= CHỌN THÔNG TIN CẦN SỬA =============================
+                        1. Sửa tên
+                        2. Sửa ngày sinh
+                        3. Sửa email
+                        4. Sửa giới tính
+                        5. Sửa số điện thoạ
+                        6. Lưu thay đổi
+                        7. Hủy
+                        """);
 
-                int choice = InputValidator.inputMenu(
-                        sc,
-                        "\n===== CHỌN THÔNG TIN CẦN SỬA =====\n" +
-                                "1. Sửa tên\n" +
-                                "2. Sửa ngày sinh\n" +
-                                "3. Sửa email\n" +
-                                "4. Sửa giới tính\n" +
-                                "5. Sửa số điện thoại\n" +
-                                "6. Lưu thay đổi\n" +
-                                "7. Hủy\n" +
-                                "Lựa chọn của bạn: ",
-                        7
-                );
+                int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn: ", 7);
 
                 switch (choice) {
 
@@ -160,7 +160,7 @@ public class StudentManagerMenu {
 
     // delete
     private static void deleteStudent(Scanner sc) {
-        int id = InputValidator.inputInt(sc, "Nhập ID sinh viên cần xoá: ");
+        int id = InputValidator.inputInt(sc, "\nNhập ID sinh viên cần xoá: ");
 
         Student student = studentService.findById(id);
         if (student == null) {
@@ -181,7 +181,7 @@ public class StudentManagerMenu {
     // tìm kiếm
     private static void searchStudent(Scanner sc) {
         System.out.println("""
-                =================== Tìm kiếm ===================
+                \n============================= Tìm kiếm =============================
                 1. Tìm theo tên
                 2. Tìm theo email
                 3. Tìm theo ID
@@ -208,7 +208,7 @@ public class StudentManagerMenu {
     // sắp xếp
     private static void sortStudent(Scanner sc) {
         System.out.println("""
-                =================== Sắp xếp ===================
+                \n============================= Sắp xếp =============================
                 1. ID tăng dần
                 2. ID giảm dần
                 3. Tên A->Z

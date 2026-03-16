@@ -129,7 +129,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         boolean findStudent = false;
         boolean findCourse = false;
 
-        int idStudent = InputValidator.inputInt(sc, "Nhập id sinh viên: ");
+        int idStudent = InputValidator.inputInt(sc, "\nNhập id sinh viên: ");
         Student student = studentDAO.findById(idStudent);
         if (student == null) {
             System.out.println("❌ Không tìm thấy sinh viên với id = " + idStudent);
@@ -182,7 +182,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             findCourse = true;
         }
 
-        int idStudent = InputValidator.inputInt(sc, "Nhập id sinh viên muốn xoá khỏi khoá học: ");
+        int idStudent = InputValidator.inputInt(sc, "\nNhập id sinh viên muốn xoá khỏi khoá học: ");
         Student student = studentDAO.findById(idStudent);
         if (student == null) {
             System.out.println("❌ Không tìm thấy sinh viên với id = " + idStudent);

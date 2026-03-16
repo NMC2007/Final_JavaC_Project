@@ -46,7 +46,7 @@ public class StudentViewServiceImpl implements StudentViewService {
     @Override
     public void createEnrollment(Scanner sc, int idStudent) {
 //        tạo xong thêm id vào rồi cho nhập id khoá học sv tự chọn
-        int idCourse = InputValidator.inputInt(sc, "Nhập id khoá học muốn đăng ký: ");
+        int idCourse = InputValidator.inputInt(sc, "\nNhập id khoá học muốn đăng ký: ");
         Course course = courseDAO.findById(idCourse);
         if (course == null) {
             System.out.println("❌ Không tìm thấy khoá học với id = " + idCourse);
@@ -102,7 +102,7 @@ public class StudentViewServiceImpl implements StudentViewService {
 
     @Override
     public void updatePassword(Scanner sc, int idStudent) {
-        String oldPassword = InputValidator.inputString(sc, "Nhập mật khẩu hiện tại: ");
+        String oldPassword = InputValidator.inputString(sc, "\nNhập mật khẩu hiện tại: ");
 
         boolean isCorrect = studentViewDAO.checkedPassword(idStudent, oldPassword);
 

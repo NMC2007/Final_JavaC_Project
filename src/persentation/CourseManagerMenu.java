@@ -14,14 +14,16 @@ public class CourseManagerMenu {
 
         while (true) {
 
-            System.out.println("\n===== MENU QUẢN LÝ KHOÁ HỌC =====");
-            System.out.println("1. Hiển thị danh sách khóa học");
-            System.out.println("2. Thêm mới khóa học");
-            System.out.println("3. Chỉnh sửa thông tin khóa học");
-            System.out.println("4. Xóa khóa học");
-            System.out.println("5. Tìm kiếm theo tên");
-            System.out.println("6. Sắp xếp danh sách khoá học");
-            System.out.println("7. Quay về menu chính");
+            System.out.println("""
+                    \n\n============================= MENU QUẢN LÝ KHOÁ HỌC =============================
+                    1. Hiển thị danh sách khóa học
+                    2. Thêm mới khóa học
+                    3. Chỉnh sửa thông tin khóa học
+                    4. Xóa khóa học
+                    5. Tìm kiếm theo tên
+                    6. Sắp xếp danh sách khoá học
+                    7. Quay về menu chính
+                    """);
 
             int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn của bạn: ", 7);
 
@@ -63,7 +65,7 @@ public class CourseManagerMenu {
 
 
     private static void updateCourse(Scanner sc) {
-        int id = InputValidator.inputInt(sc, "Nhập ID khoá học cần sửa: ");
+        int id = InputValidator.inputInt(sc, "\nNhập ID khoá học cần sửa: ");
 
         Course course = courseService.findById(id);
 
@@ -74,12 +76,14 @@ public class CourseManagerMenu {
             CourseTableView.printCourse(course);
             while (true) {
 
-                System.out.println("\nChọn thông tin cần sửa:");
-                System.out.println("1. Sửa tên khóa học");
-                System.out.println("2. Sửa thời lượng");
-                System.out.println("3. Sửa giảng viên");
-                System.out.println("4. Lưu thay đổi");
-                System.out.println("5. Hủy");
+                System.out.println("""
+                        \n============================= CHỌN THÔNG TIN CẦN SỬA =============================
+                        1. Sửa tên khóa học
+                        2. Sửa thời lượng
+                        3. Sửa giảng viên
+                        4. Lưu thay đổi
+                        5. Hủy
+                        """);
 
                 int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn: ", 5);
 
@@ -106,7 +110,7 @@ public class CourseManagerMenu {
                         courseService.updateData(course);
                         return;
                     case 5:
-                        System.out.println("❌ Hủy cập nhật.");
+                        System.out.println("⚠️ Hủy cập nhật.");
                         return;
                 }
             }
@@ -114,7 +118,7 @@ public class CourseManagerMenu {
     }
 
     private static void deleteCourse(Scanner sc) {
-        int id = InputValidator.inputInt(sc, "Nhập ID khoá học cần xoá: ");
+        int id = InputValidator.inputInt(sc, "\nNhập ID khoá học cần xoá: ");
 
         Course course = courseService.findById(id);
         if (course == null) {
@@ -139,7 +143,7 @@ public class CourseManagerMenu {
 
     private static void sortCourse(Scanner sc) {
         System.out.println("""
-                =================== Sắp xếp ===================
+                \n============================= SẮP XẾP =============================
                 1. ID tăng dần
                 2. ID giảm dần
                 3. Tên A->Z

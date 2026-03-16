@@ -10,13 +10,15 @@ public class EnrollmentManagerMenu {
 
     public static void showMenu(Scanner sc) {
         while (true) {
-            System.out.println("\n\n===== MENU QUẢN LÝ ĐĂNG KÝ KHOÁ HỌC =====");
-            System.out.println("1. Hiển thị và sét duyệt sinh viên");
-            System.out.println("2. Thêm sinh viên vào khóa học");
-            System.out.println("3. Xóa sinh viên khỏi khóa học");
-            System.out.println("4. Quay về menu chính");
+            System.out.println("""
+                    \n\n============================= MENU QUẢN LÝ ĐĂNG KÝ KHOÁ HỌC =============================
+                    1. Hiển thị và sét duyệt sinh viên
+                    2. Thêm sinh viên vào khóa học
+                    3. Xóa sinh viên khỏi khóa học
+                    4. Quay về menu chính
+                    """);
 
-            int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn: ", 4);
+            int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn của bạn: ", 4);
 
             switch (choice) {
                 case 1:

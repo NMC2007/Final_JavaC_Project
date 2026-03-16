@@ -9,15 +9,16 @@ public class AdminManagerMenu {
 
         while (true) {
 
-            System.out.println("\n=========== MENU ADMIN ===========");
-            System.out.println("1. Quản lý khóa học");
-            System.out.println("2. Quản lý học viên");
-            System.out.println("3. Quản lý đăng ký khóa học");
-            System.out.println("4. Thống kê học viên theo khóa học");
-            System.out.println("5. Đăng xuất");
-            System.out.println("==================================");
+            System.out.println("""
+                    \n============================= MENU ADMIN =============================
+                    1. Quản lý khóa học
+                    2. Quản lý học viên
+                    3. Quản lý đăng ký khóa học
+                    4. Thống kê học viên theo khóa học
+                    5. Đăng xuất
+                    """);
 
-            int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn: ", 5);
+            int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn của bạn: ", 5);
 
             switch (choice) {
                 case 1:

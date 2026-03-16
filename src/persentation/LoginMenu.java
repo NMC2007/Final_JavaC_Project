@@ -14,10 +14,12 @@ public class LoginMenu {
 
         while (true) {
 
-            System.out.println("\n===== LOGIN MENU =====");
-            System.out.println("1. Đăng nhập Admin");
-            System.out.println("2. Đăng nhập Student");
-            System.out.println("3. Thoát");
+            System.out.println("""
+                    \n\n============================= LOGIN MENU =============================
+                    1. Đăng nhập Admin
+                    2. Đăng nhập Student
+                    3. Thoát
+                    """);
 
             int choice = InputValidator.inputMenu(sc, "Nhập lựa chọn: ", 3);
 
