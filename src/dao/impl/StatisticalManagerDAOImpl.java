@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatisticalDAOImpl implements IStatisticalDAO {
+public class StatisticalManagerDAOImpl implements IStatisticalDAO {
     @Override
     public StatisticalCourseAndStudent getTotalCoursesAndStudents() {
         try (

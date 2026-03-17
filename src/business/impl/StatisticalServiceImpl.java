@@ -1,7 +1,7 @@
 package business.impl;
 
 import business.StatisticalService;
-import dao.impl.StatisticalDAOImpl;
+import dao.impl.StatisticalManagerDAOImpl;
 import model.StatisticalCourse;
 import model.StatisticalCourseAndStudent;
 import utils.tableConfig.StatisticalTableView;
@@ -9,7 +9,7 @@ import utils.tableConfig.StatisticalTableView;
 import java.util.List;
 
 public class StatisticalServiceImpl implements StatisticalService {
-    private static final StatisticalDAOImpl statisticalDAO = new StatisticalDAOImpl();
+    private static final StatisticalManagerDAOImpl statisticalDAO = new StatisticalManagerDAOImpl();
     @Override
     public void getTotalCoursesAndStudents() {
         StatisticalCourseAndStudent data = statisticalDAO.getTotalCoursesAndStudents();
