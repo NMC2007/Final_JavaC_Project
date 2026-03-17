@@ -175,11 +175,11 @@ public class StudentManagerDAOImpl implements IDaoCRUD<Student>, IStudentManager
                 break;
             case 3:
 //                tên tăng dần
-                sqlCode += " ORDER BY name ASC";
+                sqlCode += " ORDER BY split_part(name, ' ', array_length(string_to_array(name, ' '), 1)) ASC, name ASC";
                 break;
             case 4:
 //                tên giảm dần
-                sqlCode += " ORDER BY name DESC";
+                sqlCode += " ORDER BY split_part(name, ' ', array_length(string_to_array(name, ' '), 1)) DESC, name DESC ";
                 break;
             default:
                 sqlCode += " ORDER BY id ASC";
