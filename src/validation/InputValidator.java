@@ -18,9 +18,9 @@ public class InputValidator {
                     return num;
                 }
 
-                System.out.println("ID phải lớn hơn 0!");
+                System.out.println("❌ ID phải lớn hơn 0!");
             } catch (NumberFormatException e) {
-                System.out.println("ID phải là số nguyên!");
+                System.out.println("❌ ID phải là số nguyên!");
             }
         }
     }
@@ -36,7 +36,7 @@ public class InputValidator {
                 return string;
             }
 
-            System.out.println("Tên không được để trống!");
+            System.out.println("❌ Tên không được để trống!");
         }
     }
 
@@ -52,9 +52,9 @@ public class InputValidator {
                     return choice;
                 }
 
-                System.out.println("Chỉ được chọn từ 1 đến " + maxOption);
+                System.out.println("❌ Chỉ được chọn từ 1 đến " + maxOption);
             } catch (NumberFormatException e) {
-                System.out.println("Vui lòng nhập số!");
+                System.out.println("❌ Vui lòng nhập số!");
             }
         }
     }
@@ -73,7 +73,7 @@ public class InputValidator {
                 return date;
 
             } catch (DateTimeParseException e) {
-                System.out.println("Ngày không hợp lệ! Nhập đúng định dạng dd/MM/yyyy");
+                System.out.println("❌ Ngày không hợp lệ! Nhập đúng định dạng dd/MM/yyyy");
             }
         }
     }
